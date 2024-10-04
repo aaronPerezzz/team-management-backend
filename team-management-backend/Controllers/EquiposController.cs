@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using System.Security.Claims;
@@ -13,10 +14,12 @@ namespace team_management_backend.Controllers
     public class EquiposController: ControllerBase
     {
         private readonly AzureAdService _azureAdService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public EquiposController(AzureAdService azureAdService)
+        public EquiposController(AzureAdService azureAdService, IHttpContextAccessor httpContextAccessor)
         {
             this._azureAdService = azureAdService;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -31,7 +34,7 @@ namespace team_management_backend.Controllers
         }
 
         [HttpPost]
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes:Write")]
+        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes:Read")]
         public ActionResult<List<Equipo>> PostAll([FromBody] Equipo equipo)
         {
 
@@ -42,11 +45,7 @@ namespace team_management_backend.Controllers
             };
         }
 
-        [HttpGet("user")]
-        public ActionResult<ClaimsPrincipal> GetClaims()
-        {
-            return _azureAdService.GetInfoUser();
-        }
+
 
     }
 }

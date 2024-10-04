@@ -13,6 +13,9 @@ using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.AccessControl;
 using Microsoft.Identity.Client;
+using team_management_backend.Entities;
+using team_management_backend.Controllers;
+using team_management_backend.Servicios;
 
 namespace team_management_backend
 {
@@ -31,7 +34,7 @@ namespace team_management_backend
             
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
-
+            
 
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
@@ -53,7 +56,7 @@ namespace team_management_backend
                 .AddMicrosoftIdentityWebApi(options =>
                 {
                     Configuration.Bind("AzureAd", options);
-                    options.Events = new JwtBearerEvents();
+                   
                     options.TokenValidationParameters.NameClaimType = "name";
                 },
                 options => { Configuration.Bind("AzureAd", options); });
@@ -107,7 +110,8 @@ namespace team_management_backend
             });
             
             services.AddControllers();
-
+            services.AddHttpContextAccessor();
+            services.AddScoped<AzureAdService>();
 
         }
 
