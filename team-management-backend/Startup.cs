@@ -10,6 +10,9 @@ using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.AccessControl;
+using Microsoft.Identity.Client;
 
 namespace team_management_backend
 {
@@ -25,31 +28,63 @@ namespace team_management_backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
 
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(
+            //            Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
+            //        ClockSkew = TimeSpan.Zero
+            //    });
+
+
+            /**
+             *Codigo para autenticar en Azure
+             **/
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                .AddMicrosoftIdentityWebApi(options =>
                 {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
-                    ClockSkew = TimeSpan.Zero
+                    Configuration.Bind("AzureAd", options);
+                    options.Events = new JwtBearerEvents();
+                    options.TokenValidationParameters.NameClaimType = "name";
+                },
+                options => { Configuration.Bind("AzureAd", options); });
+
+            services.Configure<OpenIdConnectOptions>(
+                OpenIdConnectDefaults.AuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters.ValidateLifetime = true;
+                    options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
                 });
+
             services.AddSwaggerGen(swagger =>
             {
-                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                var scopes = Configuration.GetValue<string>("AzureAd:Scopes");
+                swagger.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "jwt",
-                    In = ParameterLocation.Header
+                    Type = SecuritySchemeType.OAuth2,
+                    Description = "API protegida",
+                   Flows = new OpenApiOAuthFlows
+                   {
+                       Implicit = new OpenApiOAuthFlow
+                       {
+                           AuthorizationUrl = new Uri("https://login.microsoftonline.com/102d3653-c8a4-4711-a5a3-7dc0ab963878/oauth2/v2.0/authorize"),
+                           Scopes = new Dictionary<string, string>
+                           {
+                               { "api://b65e313f-5391-4991-9dd4-ac957a196bac/WriteOnly", "Write" },
+                               { "api://b65e313f-5391-4991-9dd4-ac957a196bac/ReadOnly", "Read"}
+                           }
+
+                       }
+                   }
                 });
                 swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -59,41 +94,20 @@ namespace team_management_backend
                         Reference = new OpenApiReference
                         {
                             Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
+                            Id = "oauth2"
+                        },
+                        Scheme = "oautg2",
+                        Name = "oautg2",
+                        In = ParameterLocation.Header
+
                     },
-                    new string[]{}
+                    new string[]{"Id","Description"}
                     }
                 });
             });
-
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddAuthorization( options =>
-            {
-                options.AddPolicy("IsAdmin", policy => policy.RequireClaim("isAdmin"));
-                options.AddPolicy("IsUser", policy => policy.RequireClaim("isUser"));
-            });
-
-            /**
-             *Codigo para autenticar en Azure
-             **/
-            services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
-
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
-
-            services.AddMvc(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
-
             
+            services.AddControllers();
+
 
         }
 
@@ -106,9 +120,9 @@ namespace team_management_backend
             }
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             //codigo para azure active identity
-            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
