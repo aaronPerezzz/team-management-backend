@@ -15,7 +15,6 @@ namespace team_management_backend
     {
         public Startup(IConfiguration configuration)
         {
-          
             Configuration = configuration;
         }
 
@@ -32,7 +31,7 @@ namespace team_management_backend
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-          
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
                 {
