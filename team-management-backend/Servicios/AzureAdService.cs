@@ -6,9 +6,11 @@ namespace team_management_backend.Servicios
 {
     public class AzureAdService
     {
-        public AzureAdService()
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AzureAdService(IHttpContextAccessor httpContextAccessor)
         {
-            
+            this._httpContextAccessor = httpContextAccessor;
         }
 
         public UserAzureAD GetUserOnAzureAd(ClaimsPrincipal claims)
@@ -24,6 +26,11 @@ namespace team_management_backend.Servicios
                 };
             }
             return null;
+        }
+
+        public ClaimsPrincipal GetInfoUser()
+        {
+            return _httpContextAccessor.HttpContext?.User;
         }
 
     }

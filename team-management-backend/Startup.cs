@@ -7,13 +7,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using team_management_backend.Entities;
 
+
+
 namespace team_management_backend
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+          
             Configuration = configuration;
         }
 
@@ -25,9 +27,24 @@ namespace team_management_backend
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
+
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+          
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
+                    ClockSkew = TimeSpan.Zero
+                });
 
             services.AddCors(options =>
             {
@@ -41,18 +58,7 @@ namespace team_management_backend
                 });
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
-                    ClockSkew = TimeSpan.Zero
-                });
+
 
 
             services.AddSwaggerGen(swagger =>
@@ -76,10 +82,11 @@ namespace team_management_backend
                             Id = "Bearer"
                         }
                     },
-                    new List<string>()
+                    new string[]{}
                     }
                 });
             });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -89,6 +96,7 @@ namespace team_management_backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
