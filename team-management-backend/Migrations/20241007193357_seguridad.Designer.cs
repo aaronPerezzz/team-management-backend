@@ -12,8 +12,8 @@ using team_management_backend;
 namespace team_management_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241002214425_usuarios")]
-    partial class usuarios
+    [Migration("20241007193357_seguridad")]
+    partial class seguridad
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

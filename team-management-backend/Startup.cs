@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Microsoft.Identity.Web;
+using team_management_backend.Entities;
 
 namespace team_management_backend
 {
@@ -29,18 +25,36 @@ namespace team_management_backend
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
+            services.AddIdentity<Usuario, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("totalRegistros")
+                    .WithExposedHeaders("totalPaginas");
+                });
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
+                    ValidateIssuer = true,
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
                     ClockSkew = TimeSpan.Zero
                 });
+
+
             services.AddSwaggerGen(swagger =>
             {
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -62,39 +76,10 @@ namespace team_management_backend
                             Id = "Bearer"
                         }
                     },
-                    new string[]{}
+                    new List<string>()
                     }
                 });
             });
-
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddAuthorization( options =>
-            {
-                options.AddPolicy("IsAdmin", policy => policy.RequireClaim("isAdmin"));
-                options.AddPolicy("IsUser", policy => policy.RequireClaim("isUser"));
-            });
-
-            /**
-             *Codigo para autenticar en Azure
-             **/
-            services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
-
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
-
-            services.AddMvc(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
-
-            
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -107,7 +92,6 @@ namespace team_management_backend
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            //codigo para azure active identity
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {

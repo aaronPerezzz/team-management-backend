@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace team_management_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class usuarios : Migration
+    public partial class seguridad : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,7 +43,8 @@ namespace team_management_backend.Migrations
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
+                    NombreCompleto = table.Column<string>(type: "nvarchar(120)", nullable: false)
                 },
                 constraints: table =>
                 {
