@@ -25,6 +25,7 @@ namespace team_management_backend
 
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
@@ -94,6 +95,7 @@ namespace team_management_backend
             services.AddScoped<ISeguridad, SeguridadService>();
             services.AddScoped<JwtService>();
             services.AddScoped<IEquipos, EquiposService>();
+            services.AddScoped<ITipoEquipo, TipoEquipoService>();
 
         }
 

@@ -5,7 +5,7 @@ namespace team_management_backend.Web.Model
 {
     public class EquipoModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [Required]
         public int IdTipoEquipo { get; set; }
         [Required]
@@ -20,5 +20,6 @@ namespace team_management_backend.Web.Model
         public string Estado { get; set; }
         [Required]
         public DateTime FechaCompra { get; set; }
+       
     }
 }

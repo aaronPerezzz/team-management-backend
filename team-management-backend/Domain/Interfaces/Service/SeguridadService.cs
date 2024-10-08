@@ -170,6 +170,9 @@ namespace team_management_backend.domain.Interfaces.Service
             return user;
         }
 
-
+        public Task<List<RolModel>> Roles()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

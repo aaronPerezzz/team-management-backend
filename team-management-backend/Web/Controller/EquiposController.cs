@@ -18,32 +18,36 @@ namespace team_management_backend.Controllers
     public class EquiposController: ControllerBase
     {
       
-        private readonly IHttpContextAccessor httpContextAccessor;
+       
         private readonly IEquipos equiposService;
+        private readonly IMapper mapper;
 
         public EquiposController(
-            IHttpContextAccessor httpContextAccessor,
-            IEquipos equiposService)
+            IEquipos equiposService,
+            IMapper mapper)
         {
-          
-            this.httpContextAccessor = httpContextAccessor;
             this.equiposService = equiposService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Equipo>>> GetAll()
+        public async Task<ActionResult<List<EquipoModel>>> GetAll()
         {
             BaseModel<List<Equipo>> response;
-            Task<List<Equipo>> equipoList;
+            List<Equipo> equipoList;
             try
             {
-                equipoList = equiposService.GetEquipmentAll();
+                equipoList = await equiposService.GetEquipmentAll();
+                if (equipoList.Count < 1)
+                {
+                    return NotFound(response = new(Constantes.FALSE, "No hay información"));
+                }
             }
             catch (CustomException ex) 
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, response = new(Constantes.FALSE, ex.Message));
             }
-            return Ok(response = new(Constantes.TRUE, "Ok", equipoList.Result));
+            return Ok(response = new(Constantes.TRUE, "Listado de equipos", mapper.Map<List<Equipo>>( equipoList)));
         }
 
         //[HttpPost]

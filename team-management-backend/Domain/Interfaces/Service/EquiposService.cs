@@ -17,7 +17,7 @@ namespace team_management_backend.Domain.Interfaces.Service
 
         public Task<Equipo> SaveEquipment(Equipo equipo)
         {
-            
+            return null;
         }
 
         Task<Equipo> IEquipos.DeleteById(int id)
@@ -25,19 +25,9 @@ namespace team_management_backend.Domain.Interfaces.Service
             throw new NotImplementedException();
         }
 
-        async Task<List<Equipo>> IEquipos.GetEquipmentAll()
+        public async Task<List<Equipo>> GetEquipmentAll()
         {
-            List<Equipo> equipos = new List<Equipo>();
-            try
-            {
-                equipos = await context.Equipos.ToListAsync();
-            }
-            catch (Exception ex) 
-            {
-                throw new CustomException(ex.Message);
-            }
-
-            return equipos;
+            return await context.Equipos.ToListAsync();
         }
 
         Task<Equipo> IEquipos.GetFindById(int id)

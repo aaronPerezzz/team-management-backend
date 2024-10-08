@@ -20,12 +20,18 @@ namespace team_management_backend.Utils
         public const string ERROR_SEG05 = "Error al realizar consulta";
 
 
+        public const string ERROR_TIE01 = "Tipos de equipo vacía";
+
+
         //MENSAJES DE EXITO Seguridad
         public const string MSJ_SEG01 = "Inicio de sesión correctamente";
         public const string MSJ_SEG02 = "Usuario Editado con éxito";
         public const string MSJ_SEG03 = "Lista de Roles";
         public const string MSJ_SEG04 = "Lista de usuarios";
         public const string MSJ_SEG05 = "Usuario Editado con éxito";
+
+        //MENSAJES DE EXITO
+        public const string MSJ_TIE01 = "Tipos de equipo";
 
         public const int NUM0 = 0;
         public const int NUM1 = 1; 
