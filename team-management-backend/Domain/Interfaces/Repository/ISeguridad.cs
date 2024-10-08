@@ -13,5 +13,6 @@ namespace team_management_backend.domain.Interfaces.Repository
         Task<List<RolModel>> Roles();
         Task<List<UsuarioModel>> GetAllUsers();
         Task<string> EditRol(UsuarioModel usuario);
+        Task<UsuarioModel> GetUserById(Guid id);
     }
 }

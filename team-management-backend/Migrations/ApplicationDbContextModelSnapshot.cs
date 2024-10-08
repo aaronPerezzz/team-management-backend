@@ -74,71 +74,6 @@ namespace team_management_backend.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -220,7 +155,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Asignacion", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Asignacion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -266,7 +201,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Asignaciones");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.CaracteristicasTransporte", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.CaracteristicasTransporte", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -314,7 +249,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("CaracteristicasTransportes");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Equipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Equipo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -369,7 +304,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Equipos");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoHardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoHardware", b =>
                 {
                     b.Property<int>("IdEquipo")
                         .HasColumnType("int");
@@ -396,7 +331,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("EquiposHardware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoSoftware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoSoftware", b =>
                 {
                     b.Property<int>("IdEquipo")
                         .HasColumnType("int");
@@ -423,7 +358,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("EquiposSoftware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Garantia", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Garantia", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -466,7 +401,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Garantias");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Hardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Hardware", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -507,7 +442,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Hardwares");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Poliza", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Poliza", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -550,7 +485,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Polizas");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Software", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Software", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -601,7 +536,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Softwares");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.TipoAsignacion", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.TipoAsignacion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -633,7 +568,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("TiposAsignacion");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.TipoEquipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.TipoEquipo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -665,6 +600,75 @@ namespace team_management_backend.Migrations
                     b.ToTable("TiposEquipo");
                 });
 
+            modelBuilder.Entity("team_management_backend.domain.Entities.Usuario", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NombreCompleto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -676,7 +680,7 @@ namespace team_management_backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("team_management_backend.domain.Entities.Usuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -685,7 +689,7 @@ namespace team_management_backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("team_management_backend.domain.Entities.Usuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -700,7 +704,7 @@ namespace team_management_backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("team_management_backend.domain.Entities.Usuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -709,22 +713,22 @@ namespace team_management_backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("team_management_backend.domain.Entities.Usuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Asignacion", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Asignacion", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
                         .WithOne()
-                        .HasForeignKey("team_management_backend.Entities.Asignacion", "IdEquipo")
+                        .HasForeignKey("team_management_backend.domain.Entities.Asignacion", "IdEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.TipoAsignacion", "TipoAsignacion")
+                    b.HasOne("team_management_backend.domain.Entities.TipoAsignacion", "TipoAsignacion")
                         .WithMany("Asignaciones")
                         .HasForeignKey("IdTipoAsignacion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -735,32 +739,32 @@ namespace team_management_backend.Migrations
                     b.Navigation("TipoAsignacion");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.CaracteristicasTransporte", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.CaracteristicasTransporte", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
                         .WithOne("CaracteristicasTransporte")
-                        .HasForeignKey("team_management_backend.Entities.CaracteristicasTransporte", "Id")
+                        .HasForeignKey("team_management_backend.domain.Entities.CaracteristicasTransporte", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Equipo");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Equipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Equipo", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Garantia", "Garantia")
+                    b.HasOne("team_management_backend.domain.Entities.Garantia", "Garantia")
                         .WithMany()
                         .HasForeignKey("IdGarantia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.Poliza", "Poliza")
+                    b.HasOne("team_management_backend.domain.Entities.Poliza", "Poliza")
                         .WithMany()
                         .HasForeignKey("IdPoliza")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.TipoEquipo", "TipoEquipo")
+                    b.HasOne("team_management_backend.domain.Entities.TipoEquipo", "TipoEquipo")
                         .WithMany("Equipos")
                         .HasForeignKey("IdTipoEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -773,15 +777,15 @@ namespace team_management_backend.Migrations
                     b.Navigation("TipoEquipo");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoHardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoHardware", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
                         .WithMany("EquiposHardware")
                         .HasForeignKey("IdEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.Hardware", "Hardware")
+                    b.HasOne("team_management_backend.domain.Entities.Hardware", "Hardware")
                         .WithMany("EquiposHardware")
                         .HasForeignKey("IdHardware")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -792,15 +796,15 @@ namespace team_management_backend.Migrations
                     b.Navigation("Hardware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoSoftware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoSoftware", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
                         .WithMany("EquiposSoftware")
                         .HasForeignKey("IdEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.Software", "Software")
+                    b.HasOne("team_management_backend.domain.Entities.Software", "Software")
                         .WithMany("EquiposSoftware")
                         .HasForeignKey("IdSoftware")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -811,7 +815,7 @@ namespace team_management_backend.Migrations
                     b.Navigation("Software");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Equipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Equipo", b =>
                 {
                     b.Navigation("CaracteristicasTransporte");
 
@@ -820,22 +824,22 @@ namespace team_management_backend.Migrations
                     b.Navigation("EquiposSoftware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Hardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Hardware", b =>
                 {
                     b.Navigation("EquiposHardware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Software", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Software", b =>
                 {
                     b.Navigation("EquiposSoftware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.TipoAsignacion", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.TipoAsignacion", b =>
                 {
                     b.Navigation("Asignaciones");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.TipoEquipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.TipoEquipo", b =>
                 {
                     b.Navigation("Equipos");
                 });

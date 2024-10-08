@@ -9,6 +9,7 @@ using team_management_backend.Context;
 using team_management_backend.domain.Entities;
 using team_management_backend.domain.Interfaces.Repository;
 using team_management_backend.domain.Interfaces.Service;
+using team_management_backend.Domain.Interfaces.Repository;
 using team_management_backend.Domain.Interfaces.Service;
 
 namespace team_management_backend
@@ -27,7 +28,8 @@ namespace team_management_backend
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
-
+            
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -91,6 +93,7 @@ namespace team_management_backend
 
             services.AddScoped<ISeguridad, SeguridadService>();
             services.AddScoped<JwtService>();
+            services.AddScoped<IEquipos, EquiposService>();
 
         }
 

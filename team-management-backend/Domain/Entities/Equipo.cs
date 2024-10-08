@@ -19,6 +19,7 @@ namespace team_management_backend.domain.Entities
         public string Estado { get; set; }
         [Required]
         public DateTime FechaCompra { get; set; }
+
         public virtual CaracteristicasTransporte CaracteristicasTransporte { get; set; }
         public string IdUsuarioCreacion { get; set; }
         public string IdUsuarioModificacion { get; set; }

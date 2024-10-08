@@ -91,6 +91,31 @@ namespace team_management_backend.domain.Interfaces.Service
             return users;
         }
 
+        async Task<UsuarioModel> ISeguridad.GetUserById(Guid id)
+        {
+            UsuarioModel userModel;
+            Guid guid = id;
+            try
+            {
+                userModel = await (from user in context.Users
+                                   join userRole in context.UserRoles on user.Id equals userRole.UserId
+                                   join role in context.Roles on userRole.RoleId equals role.Id
+                                   where user.Id == id.ToString()
+                                   select new UsuarioModel
+                                   {
+                                       NombreCompleto = user.NombreCompleto,
+                                       Correo = user.Email,
+                                       Rol = role.Name
+                                   }).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                throw new CustomException(e.Message);
+            }
+
+            return userModel;
+        }
+
         /// <summary>
         /// Inicia sesion, si no encuentra el usuario crea nuevo registro
         /// </summary>

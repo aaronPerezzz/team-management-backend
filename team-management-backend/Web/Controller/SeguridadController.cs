@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net;
 using team_management_backend.Context;
 using team_management_backend.domain.Entities;
@@ -83,6 +84,26 @@ namespace team_management_backend.Controllers
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, users = new(false, ex.Message));
             }
+        }
+
+        [HttpGet("users/{id:Guid}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UsuarioModel>> getUserById(Guid id)
+        {
+            UsuarioModel userModel = new UsuarioModel();
+            BaseModel<UsuarioModel> user;
+            try
+            {
+                userModel = await seguridadService.GetUserById(id);
+                if (userModel is null)
+                {
+                    return NotFound(user = new (Constantes.FALSE, "Usuario no existe", new UsuarioModel()));
+                }
+            }
+            catch (CustomException ex) {
+                return StatusCode((int)HttpStatusCode.InternalServerError, user = new(false, ex.Message));
+            }
+            return Ok(user = new (Constantes.TRUE, "Usuario", userModel));
         }
 
 
