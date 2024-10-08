@@ -220,7 +220,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Asignacion", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Asignacion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,22 +228,19 @@ namespace team_management_backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("FechaAsignacion")
+                    b.Property<DateTime?>("FechaAsignacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaFinAsignacion")
+                    b.Property<DateTime?>("FechaFinAsignacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdEquipo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTipoAsignacion")
                         .HasColumnType("int");
 
                     b.Property<string>("IdUsuario")
@@ -256,26 +253,28 @@ namespace team_management_backend.Migrations
                     b.Property<string>("IdUsuarioModificacion")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("esTemporal")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEquipo")
-                        .IsUnique();
-
-                    b.HasIndex("IdTipoAsignacion");
+                    b.HasIndex("IdEquipo");
 
                     b.ToTable("Asignaciones");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.CaracteristicasTransporte", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.CaracteristicasTransporte", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AñoCompra")
                         .HasColumnType("int");
 
                     b.Property<string>("Cilindrada")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
@@ -283,14 +282,16 @@ namespace team_management_backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Combustible")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEquipo")
+                        .HasColumnType("int");
 
                     b.Property<string>("IdUsuarioCreacion")
                         .HasColumnType("nvarchar(max)");
@@ -298,7 +299,7 @@ namespace team_management_backend.Migrations
                     b.Property<string>("IdUsuarioModificacion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumeroPuertas")
+                    b.Property<int?>("NumeroPuertas")
                         .HasColumnType("int");
 
                     b.Property<string>("Placas")
@@ -311,10 +312,13 @@ namespace team_management_backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdEquipo")
+                        .IsUnique();
+
                     b.ToTable("CaracteristicasTransportes");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Equipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Equipo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,16 +333,16 @@ namespace team_management_backend.Migrations
                     b.Property<DateTime>("FechaCompra")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdGarantia")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPoliza")
+                    b.Property<int?>("IdPoliza")
                         .HasColumnType("int");
 
                     b.Property<int>("IdTipoEquipo")
@@ -369,7 +373,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Equipos");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoHardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoHardware", b =>
                 {
                     b.Property<int>("IdEquipo")
                         .HasColumnType("int");
@@ -377,10 +381,10 @@ namespace team_management_backend.Migrations
                     b.Property<int>("IdHardware")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdUsuarioCreacion")
@@ -396,7 +400,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("EquiposHardware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoSoftware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoSoftware", b =>
                 {
                     b.Property<int>("IdEquipo")
                         .HasColumnType("int");
@@ -404,10 +408,10 @@ namespace team_management_backend.Migrations
                     b.Property<int>("IdSoftware")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdUsuarioCreacion")
@@ -423,7 +427,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("EquiposSoftware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Garantia", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Garantia", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -435,7 +439,7 @@ namespace team_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaFin")
@@ -444,7 +448,7 @@ namespace team_management_backend.Migrations
                     b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdUsuarioCreacion")
@@ -466,7 +470,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Garantias");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Hardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Hardware", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -478,10 +482,10 @@ namespace team_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdUsuarioCreacion")
@@ -507,7 +511,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Hardwares");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Poliza", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Poliza", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -523,7 +527,7 @@ namespace team_management_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaFin")
@@ -532,7 +536,7 @@ namespace team_management_backend.Migrations
                     b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdUsuarioCreacion")
@@ -550,7 +554,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Polizas");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Software", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Software", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -559,19 +563,18 @@ namespace team_management_backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descripcion")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FechaCompra")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaInstalacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdUsuarioCreacion")
@@ -601,7 +604,7 @@ namespace team_management_backend.Migrations
                     b.ToTable("Softwares");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.TipoAsignacion", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.TipoEquipo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -612,42 +615,10 @@ namespace team_management_backend.Migrations
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("IdUsuarioCreacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IdUsuarioModificacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TiposAsignacion");
-                });
-
-            modelBuilder.Entity("team_management_backend.Entities.TipoEquipo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaModificacion")
+                    b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdUsuarioCreacion")
@@ -716,51 +687,41 @@ namespace team_management_backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Asignacion", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Asignacion", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
-                        .WithOne()
-                        .HasForeignKey("team_management_backend.Entities.Asignacion", "IdEquipo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("team_management_backend.Entities.TipoAsignacion", "TipoAsignacion")
-                        .WithMany("Asignaciones")
-                        .HasForeignKey("IdTipoAsignacion")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
+                        .WithMany()
+                        .HasForeignKey("IdEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Equipo");
-
-                    b.Navigation("TipoAsignacion");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.CaracteristicasTransporte", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.CaracteristicasTransporte", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
                         .WithOne("CaracteristicasTransporte")
-                        .HasForeignKey("team_management_backend.Entities.CaracteristicasTransporte", "Id")
+                        .HasForeignKey("team_management_backend.domain.Entities.CaracteristicasTransporte", "IdEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Equipo");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Equipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Equipo", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Garantia", "Garantia")
+                    b.HasOne("team_management_backend.domain.Entities.Garantia", "Garantia")
                         .WithMany()
                         .HasForeignKey("IdGarantia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.Poliza", "Poliza")
+                    b.HasOne("team_management_backend.domain.Entities.Poliza", "Poliza")
                         .WithMany()
-                        .HasForeignKey("IdPoliza")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdPoliza");
 
-                    b.HasOne("team_management_backend.Entities.TipoEquipo", "TipoEquipo")
+                    b.HasOne("team_management_backend.domain.Entities.TipoEquipo", "TipoEquipo")
                         .WithMany("Equipos")
                         .HasForeignKey("IdTipoEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -773,15 +734,15 @@ namespace team_management_backend.Migrations
                     b.Navigation("TipoEquipo");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoHardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoHardware", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
                         .WithMany("EquiposHardware")
                         .HasForeignKey("IdEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.Hardware", "Hardware")
+                    b.HasOne("team_management_backend.domain.Entities.Hardware", "Hardware")
                         .WithMany("EquiposHardware")
                         .HasForeignKey("IdHardware")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -792,15 +753,15 @@ namespace team_management_backend.Migrations
                     b.Navigation("Hardware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.EquipoSoftware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.EquipoSoftware", b =>
                 {
-                    b.HasOne("team_management_backend.Entities.Equipo", "Equipo")
+                    b.HasOne("team_management_backend.domain.Entities.Equipo", "Equipo")
                         .WithMany("EquiposSoftware")
                         .HasForeignKey("IdEquipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("team_management_backend.Entities.Software", "Software")
+                    b.HasOne("team_management_backend.domain.Entities.Software", "Software")
                         .WithMany("EquiposSoftware")
                         .HasForeignKey("IdSoftware")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -811,7 +772,7 @@ namespace team_management_backend.Migrations
                     b.Navigation("Software");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Equipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Equipo", b =>
                 {
                     b.Navigation("CaracteristicasTransporte");
 
@@ -820,22 +781,17 @@ namespace team_management_backend.Migrations
                     b.Navigation("EquiposSoftware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Hardware", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Hardware", b =>
                 {
                     b.Navigation("EquiposHardware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.Software", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.Software", b =>
                 {
                     b.Navigation("EquiposSoftware");
                 });
 
-            modelBuilder.Entity("team_management_backend.Entities.TipoAsignacion", b =>
-                {
-                    b.Navigation("Asignaciones");
-                });
-
-            modelBuilder.Entity("team_management_backend.Entities.TipoEquipo", b =>
+            modelBuilder.Entity("team_management_backend.domain.Entities.TipoEquipo", b =>
                 {
                     b.Navigation("Equipos");
                 });

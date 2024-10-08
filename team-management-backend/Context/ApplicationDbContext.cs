@@ -1,27 +1,27 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using team_management_backend.domain.Entities;
 
 namespace team_management_backend.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<Usuario>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Asignacion> Asignaciones => Set<Asignacion>();
-        public DbSet<CaracteristicasTransporte> CaracteristicasTransportes => Set<CaracteristicasTransporte>();
-        public DbSet<Equipo> Equipos => Set<Equipo>();
-        public DbSet<EquipoHardware> EquiposHardware => Set<EquipoHardware>();
-        public DbSet<EquipoSoftware> EquiposSoftware => Set<EquipoSoftware>();
-        public DbSet<Garantia> Garantias => Set<Garantia>();
-        public DbSet<Hardware> Hardwares => Set<Hardware>();
-        public DbSet<Poliza> Polizas => Set<Poliza>();
-        public DbSet<Software> Softwares => Set<Software>();
-        public DbSet<TipoAsignacion> TiposAsignacion => Set<TipoAsignacion>();
-        public DbSet<TipoEquipo> TiposEquipo => Set<TipoEquipo>();
+        public DbSet<Asignacion> Asignaciones { get; set; }
+        public DbSet<CaracteristicasTransporte> CaracteristicasTransportes { get; set; }
+        public DbSet<Equipo> Equipos { get; set; }
+        public DbSet<EquipoHardware> EquiposHardware { get; set; }
+        public DbSet<EquipoSoftware> EquiposSoftware { get; set; }
+        public DbSet<Garantia> Garantias { get; set; }
+        public DbSet<Hardware> Hardwares { get; set; }
+        public DbSet<Poliza> Polizas { get; set; }
+        public DbSet<Software> Softwares { get; set; }
+        public DbSet<TipoEquipo> TiposEquipo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,19 +29,8 @@ namespace team_management_backend.Context
 
             modelBuilder.Entity<Asignacion>()
                 .HasOne(a => a.Equipo)
-                .WithOne()
-                .HasForeignKey<Asignacion>(a => a.IdEquipo);
-
-            modelBuilder.Entity<Asignacion>()
-                .HasOne(a => a.TipoAsignacion)
-                .WithMany(t => t.Asignaciones)
-                .HasForeignKey(a => a.IdTipoAsignacion);
-
-
-            modelBuilder.Entity<CaracteristicasTransporte>()
-                .HasOne(ct => ct.Equipo)
-                .WithOne(e => e.CaracteristicasTransporte)
-                .HasForeignKey<CaracteristicasTransporte>(ct => ct.Id);
+                .WithMany() 
+                .HasForeignKey(a => a.IdEquipo);
 
 
             modelBuilder.Entity<Equipo>()
@@ -58,6 +47,11 @@ namespace team_management_backend.Context
                 .HasOne(e => e.Poliza)
                 .WithMany()
                 .HasForeignKey(e => e.IdPoliza);
+
+            modelBuilder.Entity<Equipo>()
+                .HasOne(e => e.CaracteristicasTransporte)
+                .WithOne(ct => ct.Equipo)
+                .HasForeignKey<CaracteristicasTransporte>(ct => ct.IdEquipo);
 
             modelBuilder.Entity<EquipoHardware>()
             .HasKey(eh => new { eh.IdEquipo, eh.IdHardware });
@@ -84,11 +78,6 @@ namespace team_management_backend.Context
                 .HasOne(es => es.Software)
                 .WithMany(s => s.EquiposSoftware)
                 .HasForeignKey(es => es.IdSoftware);
-
-            modelBuilder.Entity<TipoAsignacion>()
-                .HasMany(ta => ta.Asignaciones)
-                .WithOne(a => a.TipoAsignacion)
-                .HasForeignKey(a => a.IdTipoAsignacion);
 
             modelBuilder.Entity<TipoEquipo>()
                 .HasMany(te => te.Equipos)

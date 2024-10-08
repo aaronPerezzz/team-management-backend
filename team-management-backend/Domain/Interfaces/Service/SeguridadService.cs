@@ -73,15 +73,15 @@ namespace team_management_backend.domain.Interfaces.Service
             List<UsuarioModel> users = new List<UsuarioModel>();
             try
             {
-                users = await (from user in context.Users
-                               join userRole in context.UserRoles on user.Id equals userRole.UserId
-                               join role in context.Roles on userRole.RoleId equals role.Id
-                               select new UsuarioModel
-                               {
-                                   NombreCompleto = user.NombreCompleto,
-                                   Correo = user.Email,
-                                   Rol = role.Name,
-                               }).ToListAsync();
+                //users = await (from user in context.Users
+                //               join userRole in context.UserRoles on user.Id equals userRole.UserId
+                //               join role in context.Roles on userRole.RoleId equals role.Id
+                //               select new UsuarioModel
+                //               {
+                //                   NombreCompleto = user.NombreCompleto,
+                //                   Correo = user.Email,
+                //                   Rol = role.Name,
+                //               }).ToListAsync();
             }
             catch (Exception e)
             {
@@ -112,11 +112,11 @@ namespace team_management_backend.domain.Interfaces.Service
         /// Obtiene los roles de la base de datos
         /// </summary>
         /// <returns>List<RolModel></returns>
-        async Task<List<RolModel>> ISeguridad.Roles()
-        {
-            var roles = await context.Roles.Select(x => new RolModel { Nombre = x.Name! }).ToListAsync();
-            return roles;
-        }
+        //async Task<List<RolModel>> ISeguridad.Roles()
+        //{
+        //    var roles = await context.Roles.Select(x => new RolModel { Nombre = x.Name! }).ToListAsync();
+        //    return roles;
+        //}
 
         /// <summary>
         /// Crea nuevo usuario
@@ -145,6 +145,9 @@ namespace team_management_backend.domain.Interfaces.Service
             return user;
         }
 
-
+        public Task<List<RolModel>> Roles()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

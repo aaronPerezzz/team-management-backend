@@ -9,6 +9,7 @@ using team_management_backend.Context;
 using team_management_backend.domain.Entities;
 using team_management_backend.domain.Interfaces.Repository;
 using team_management_backend.domain.Interfaces.Service;
+using team_management_backend.Domain.Interfaces.Repository;
 using team_management_backend.Domain.Interfaces.Service;
 
 namespace team_management_backend
@@ -24,6 +25,7 @@ namespace team_management_backend
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IAsignacion, AsignacionService>();
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
