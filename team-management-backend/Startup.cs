@@ -5,9 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using team_management_backend.Entities;
-
-
+using team_management_backend.Context;
+using team_management_backend.domain.Entities;
+using team_management_backend.domain.Interfaces.Repository;
+using team_management_backend.domain.Interfaces.Service;
+using team_management_backend.Domain.Interfaces.Service;
 
 namespace team_management_backend
 {
@@ -86,7 +88,13 @@ namespace team_management_backend
                 });
             });
 
+
+            services.AddScoped<ISeguridad, SeguridadService>();
+            services.AddScoped<JwtService>();
+
         }
+
+
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

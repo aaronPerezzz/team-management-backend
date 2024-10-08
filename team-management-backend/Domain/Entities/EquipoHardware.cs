@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace team_management_backend.Entities
+namespace team_management_backend.domain.Entities
 {
     public class EquipoHardware
     {

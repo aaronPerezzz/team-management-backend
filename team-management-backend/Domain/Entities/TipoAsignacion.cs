@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace team_management_backend.Entities
+namespace team_management_backend.domain.Entities
 {
-    public class TipoEquipo
+    public class TipoAsignacion
     {
         [Key]
         public int Id { get; set; }
@@ -14,8 +14,9 @@ namespace team_management_backend.Entities
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaModificacion { get; set; }
 
+
         // Relaciones
-        public ICollection<Equipo> Equipos { get; set; }
+        public List<Asignacion> Asignaciones { get; set; }
     }
 
 }

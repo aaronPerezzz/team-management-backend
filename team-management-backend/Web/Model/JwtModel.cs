@@ -1,6 +1,12 @@
-﻿namespace team_management_backend.DTOs
+﻿
+/*
+ * @author Aaron Pérez
+ * @since 07/10/2024
+ */
+
+namespace team_management_backend.Web.Model
 {
-    public class JwtDTO
+    public class JwtModel
     {
         public string Key { get; set; } = null!;
         public string Issuer { get; set; }

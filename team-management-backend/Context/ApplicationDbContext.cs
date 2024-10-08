@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using team_management_backend.Entities;
+using team_management_backend.domain.Entities;
 
-namespace team_management_backend
+namespace team_management_backend.Context
 {
     public class ApplicationDbContext : IdentityDbContext<Usuario>
     {
@@ -28,20 +28,20 @@ namespace team_management_backend
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Asignacion>()
-                .HasOne(a => a.Equipo)            
-                .WithOne()                         
+                .HasOne(a => a.Equipo)
+                .WithOne()
                 .HasForeignKey<Asignacion>(a => a.IdEquipo);
 
             modelBuilder.Entity<Asignacion>()
-                .HasOne(a => a.TipoAsignacion)  
-                .WithMany(t => t.Asignaciones)    
+                .HasOne(a => a.TipoAsignacion)
+                .WithMany(t => t.Asignaciones)
                 .HasForeignKey(a => a.IdTipoAsignacion);
 
 
             modelBuilder.Entity<CaracteristicasTransporte>()
                 .HasOne(ct => ct.Equipo)
                 .WithOne(e => e.CaracteristicasTransporte)
-                .HasForeignKey<CaracteristicasTransporte>(ct => ct.Id);             
+                .HasForeignKey<CaracteristicasTransporte>(ct => ct.Id);
 
 
             modelBuilder.Entity<Equipo>()

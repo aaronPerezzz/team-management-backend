@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace team_management_backend.DTOs
+/*
+ * @author Aaron Pérez
+ * @since 07/10/2024
+ */
+namespace team_management_backend.Web.Model
 {
-    public class UsuarioDTO
+    public class UsuarioModel
     {
         [EmailAddress]
         [Required]
         public string Correo { get; set; }
-        [Required]
         public string NombreCompleto { get; set; }
         public string Rol { get; set; }
     }

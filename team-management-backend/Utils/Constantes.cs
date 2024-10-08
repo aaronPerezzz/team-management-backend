@@ -1,9 +1,15 @@
-﻿namespace team_management_backend.Utils
+﻿/*
+ * @author Aaron Pérez
+ * @since 07/10/2024
+ */
+
+namespace team_management_backend.Utils
 {
-    public class Constants
+    public class Constantes
     {
 
         public const string USUARIO = "Usuario";
+        public const string ADMINISTRADOR = "Administrador";
 
         public const string ERROR_NOCONTROLADO_SSEG = "Error no controlado en Servicios de Seguridad: ";
 
@@ -20,5 +26,13 @@
         public const string MSJ_SEG03 = "Lista de Roles";
         public const string MSJ_SEG04 = "Lista de usuarios";
         public const string MSJ_SEG05 = "Usuario Editado con éxito";
+
+        public const int NUM0 = 0;
+        public const int NUM1 = 1; 
+        public const int NUM2 = 2;
+        public const int NUM3 = 3;
+
+        public const bool TRUE = true;
+        public const bool FALSE = false;
     }
 }
