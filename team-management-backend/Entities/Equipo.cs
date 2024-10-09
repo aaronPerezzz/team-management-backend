@@ -20,7 +20,10 @@ namespace team_management_backend.domain.Entities
         public string Estado { get; set; }
 
         [Required]
-        public DateTime FechaCompra { get; set; }
+        public string Serial { get; set; }
+
+        [Required]
+        public DateOnly FechaCompra { get; set; }
 
         public string? IdUsuarioCreacion { get; set; }
 
@@ -34,9 +37,9 @@ namespace team_management_backend.domain.Entities
         public TipoEquipo TipoEquipo { get; set; }
         public Garantia Garantia { get; set; }
         public Poliza Poliza { get; set; }
-        public List<EquipoHardware> EquiposHardware { get; set; }
-        public List<EquipoSoftware> EquiposSoftware { get; set; }
         public CaracteristicasTransporte CaracteristicasTransporte { get; set; }
+        public List<Software> Software { get; set; }
+        public List<Hardware> Hardware { get; set; }
     }
 
 

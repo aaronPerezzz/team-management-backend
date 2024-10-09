@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace team_management_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class tablas : Migration
+    public partial class restructuratablas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,49 +49,6 @@ namespace team_management_backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Hardwares",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Serial = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdUsuarioModificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FechaModificacion = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hardwares", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Softwares",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Serial = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Version = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaCompra = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FechaInstalacion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdUsuarioModificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FechaModificacion = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Softwares", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,7 +185,8 @@ namespace team_management_backend.Migrations
                     Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Modelo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaCompra = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Serial = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaCompra = table.Column<DateOnly>(type: "date", nullable: false),
                     IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdUsuarioModificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -303,62 +261,6 @@ namespace team_management_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EquiposHardware",
-                columns: table => new
-                {
-                    IdEquipo = table.Column<int>(type: "int", nullable: false),
-                    IdHardware = table.Column<int>(type: "int", nullable: false),
-                    IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdUsuarioModificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FechaModificacion = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EquiposHardware", x => new { x.IdEquipo, x.IdHardware });
-                    table.ForeignKey(
-                        name: "FK_EquiposHardware_Equipos_IdEquipo",
-                        column: x => x.IdEquipo,
-                        principalTable: "Equipos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EquiposHardware_Hardwares_IdHardware",
-                        column: x => x.IdHardware,
-                        principalTable: "Hardwares",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EquiposSoftware",
-                columns: table => new
-                {
-                    IdEquipo = table.Column<int>(type: "int", nullable: false),
-                    IdSoftware = table.Column<int>(type: "int", nullable: false),
-                    IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdUsuarioModificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FechaModificacion = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EquiposSoftware", x => new { x.IdEquipo, x.IdSoftware });
-                    table.ForeignKey(
-                        name: "FK_EquiposSoftware_Equipos_IdEquipo",
-                        column: x => x.IdEquipo,
-                        principalTable: "Equipos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EquiposSoftware_Softwares_IdSoftware",
-                        column: x => x.IdSoftware,
-                        principalTable: "Softwares",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Garantias",
                 columns: table => new
                 {
@@ -367,7 +269,6 @@ namespace team_management_backend.Migrations
                     IdEquipo = table.Column<int>(type: "int", nullable: false),
                     Tipo_Garantia = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Proveedor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaFin = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -380,6 +281,33 @@ namespace team_management_backend.Migrations
                     table.PrimaryKey("PK_Garantias", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Garantias_Equipos_IdEquipo",
+                        column: x => x.IdEquipo,
+                        principalTable: "Equipos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Hardwares",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdEquipo = table.Column<int>(type: "int", nullable: false),
+                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Serial = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdUsuarioModificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FechaModificacion = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hardwares", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Hardwares_Equipos_IdEquipo",
                         column: x => x.IdEquipo,
                         principalTable: "Equipos",
                         principalColumn: "Id",
@@ -408,6 +336,36 @@ namespace team_management_backend.Migrations
                     table.PrimaryKey("PK_Polizas", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Polizas_Equipos_IdEquipo",
+                        column: x => x.IdEquipo,
+                        principalTable: "Equipos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Softwares",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdEquipo = table.Column<int>(type: "int", nullable: false),
+                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Serial = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Version = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaCompra = table.Column<DateOnly>(type: "date", nullable: false),
+                    FechaInstalacion = table.Column<DateOnly>(type: "date", nullable: false),
+                    IdUsuarioCreacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdUsuarioModificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FechaModificacion = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Softwares", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Softwares_Equipos_IdEquipo",
                         column: x => x.IdEquipo,
                         principalTable: "Equipos",
                         principalColumn: "Id",
@@ -470,26 +428,26 @@ namespace team_management_backend.Migrations
                 column: "IdTipoEquipo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquiposHardware_IdHardware",
-                table: "EquiposHardware",
-                column: "IdHardware");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EquiposSoftware_IdSoftware",
-                table: "EquiposSoftware",
-                column: "IdSoftware");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Garantias_IdEquipo",
                 table: "Garantias",
                 column: "IdEquipo",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Hardwares_IdEquipo",
+                table: "Hardwares",
+                column: "IdEquipo");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Polizas_IdEquipo",
                 table: "Polizas",
                 column: "IdEquipo",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Softwares_IdEquipo",
+                table: "Softwares",
+                column: "IdEquipo");
         }
 
         /// <inheritdoc />
@@ -517,28 +475,22 @@ namespace team_management_backend.Migrations
                 name: "CaracteristicasTransportes");
 
             migrationBuilder.DropTable(
-                name: "EquiposHardware");
-
-            migrationBuilder.DropTable(
-                name: "EquiposSoftware");
-
-            migrationBuilder.DropTable(
                 name: "Garantias");
 
             migrationBuilder.DropTable(
+                name: "Hardwares");
+
+            migrationBuilder.DropTable(
                 name: "Polizas");
+
+            migrationBuilder.DropTable(
+                name: "Softwares");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Hardwares");
-
-            migrationBuilder.DropTable(
-                name: "Softwares");
 
             migrationBuilder.DropTable(
                 name: "Equipos");

@@ -2,37 +2,33 @@
 
 namespace team_management_backend.domain.Entities
 {
-    public class Software
+    public class Garantia
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public string Marca { get; set; }
+        public int IdEquipo { get; set; }
 
         [Required]
-        public string Nombre { get; set; }
-
-        public string? Descripcion { get; set; }
+        public string Tipo_Garantia { get; set; }
 
         [Required]
-        public string Serial { get; set; } 
+        public string Proveedor { get; set; }
 
         [Required]
-        public string Version { get; set; }
+        public DateTime FechaInicio { get; set; }
 
         [Required]
-        public DateTime FechaCompra { get; set; }
-
-        [Required]
-        public DateTime FechaInstalacion { get; set; }
+        public DateTime FechaFin { get; set; }
 
         public string? IdUsuarioCreacion { get; set; }
         public string? IdUsuarioModificacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 
-        public List<EquipoSoftware> EquiposSoftware { get; set; }
+        //Relaciones
+        public Equipo Equipo { get; set; }
     }
 
 }

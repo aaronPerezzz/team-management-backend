@@ -7,6 +7,8 @@ namespace team_management_backend.domain.Entities
         [Key]
         public int Id { get; set; }
 
+       [Required]
+        public int IdEquipo { get; set; }
         [Required]
         public string Marca { get; set; }
 
@@ -23,9 +25,10 @@ namespace team_management_backend.domain.Entities
         public string? IdUsuarioModificacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
-    
 
-        public List<EquipoHardware> EquiposHardware { get; set; }
+        //Relaciones
+        public Equipo Equipo { get; set; }
+    
     }
 
 }
