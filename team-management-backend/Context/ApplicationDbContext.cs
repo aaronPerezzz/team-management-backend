@@ -40,13 +40,13 @@ namespace team_management_backend.Context
 
             modelBuilder.Entity<Equipo>()
                 .HasOne(e => e.Garantia)
-                .WithMany()
-                .HasForeignKey(e => e.IdGarantia);
+                .WithOne(g => g.Equipo)
+                .HasForeignKey<Garantia>(g => g.IdEquipo);
 
             modelBuilder.Entity<Equipo>()
                 .HasOne(e => e.Poliza)
-                .WithMany()
-                .HasForeignKey(e => e.IdPoliza);
+                .WithOne(p => p.Equipo)
+                .HasForeignKey<Poliza>(p => p.IdEquipo);
 
             modelBuilder.Entity<Equipo>()
                 .HasOne(e => e.CaracteristicasTransporte)

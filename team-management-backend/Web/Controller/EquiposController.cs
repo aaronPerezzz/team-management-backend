@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace team_management_backend.Controllers
 {
     [Route("api/equipos")]
     [ApiController]
+    
     public class EquiposController: ControllerBase
     {
       
@@ -50,17 +52,22 @@ namespace team_management_backend.Controllers
             return Ok(response = new(Constantes.TRUE, "Listado de equipos", mapper.Map<List<Equipo>>( equipoList)));
         }
 
-        //[HttpPost]
-        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes:Read")]
-        //public ActionResult<List<Equipo>> PostAll([FromBody] Equipo equipo)
-        //{
+        [HttpPost]
+        public async Task<ActionResult<BaseModel<EquipoModel>>> PostAll([FromBody] EquipoModel equipo)
+        {
+            BaseModel<EquipoModel> response;
+            Equipo model;
 
-        //    return new List<Equipo> {
-        //        new Equipo { Descripcion= "Laptop", Nombre = "Dell"},
-        //        new Equipo { Descripcion= "Laptop Lenovo", Nombre = "Lenovo"},
-        //        new Equipo {Descripcion = equipo.Descripcion, Nombre = equipo.Nombre}
-        //    };
-        //}
+            try
+            {
+                model = await equiposService.SaveEquipment(equipo);
+            }
+            catch (CustomException ex) {
+                return StatusCode((int)HttpStatusCode.InternalServerError, response = new(Constantes.FALSE, ex.Message));
+            }
+
+           return Ok(response = new(Constantes.TRUE, "Guardado con exito", mapper.Map<EquipoModel>(model)));
+        }
 
 
 
