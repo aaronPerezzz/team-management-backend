@@ -3,6 +3,8 @@
  * @since 07/10/2024
  */
 
+using System.Globalization;
+
 namespace team_management_backend.Utils
 {
     public class Constantes
@@ -34,5 +36,26 @@ namespace team_management_backend.Utils
 
         public const bool TRUE = true;
         public const bool FALSE = false;
+
+        #region Constantes Asignaciones
+        //MENSAJES DE ERROR ASIGNACIONES
+        public const string ERROR_AS01 = "No se encontraron asignaciones.";
+        public const string ERROR_AS02 = "Usuario no encontrado.";
+        public const string ERROR_AS03 = "No se encontró la asignación.";
+        public const string ERROR_AS04 = "El equipo ya está asignado a otro usuario. No puede reasignarse hasta que se libere";
+        public const string ERROR_AS05 = "No se editó la asignación.";
+        public const string ERROR_AS06 = "No se pudo eliminar la asignación.";
+        public const string ERROR_AS07 = "Error no controlado en el servicio de Asignaciones-";
+        public const string ERROR_AS08 = "No existe el tipo de equipo: ";
+        public const string ERROR_AS09 = "No se encontraron asignaciones para el tipo de equipo proporcionado.";
+        public const string ERROR_AS10 = "Error no controlado: ";
+        public const string ERROR_AS11 = "Mal identificador id";
+
+        //MENSAJES DE ÉXITO ASIGNACIONES
+        public const string MSJ_AS01 = "Asignación editada con éxito.";
+        public const string MSJ_AS02 = "Asignación eliminada.";
+        public const string MSJ_AS03 = "Operación realizada con éxito.";
+
+        #endregion
     }
 }

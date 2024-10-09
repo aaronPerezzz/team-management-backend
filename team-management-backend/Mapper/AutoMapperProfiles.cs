@@ -9,6 +9,9 @@ namespace team_management_backend.Mapper
         public AutoMapperProfiles()
         {
             CreateMap<AsignacionCrearDTO, Asignacion>();
+
+            CreateMap<AsignacionEditarDTO, Asignacion>()
+                .ReverseMap();
         }
     }
 }
