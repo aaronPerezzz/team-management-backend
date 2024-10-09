@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using team_management_backend.domain.Entities;
+<<<<<<< HEAD
 using team_management_backend.Web.Model;
+using team_management_backend.Web.Model.Asignaciones;
 
 namespace team_management_backend.Mapper
 {
@@ -8,6 +10,7 @@ namespace team_management_backend.Mapper
     {
         public AutoMapperProfiles()
         {
+            CreateMap<AsignacionCrearDTO, Asignacion>();
             CreateMap<TipoEquipo, TipoEquipoModel>();
             CreateMap<Equipo, EquipoModel>().ReverseMap();
             CreateMap<Garantia, GarantiaModel>().ReverseMap();

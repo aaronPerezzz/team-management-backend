@@ -22,6 +22,7 @@ namespace team_management_backend.Context
         public DbSet<Poliza> Polizas { get; set; }
         public DbSet<Software> Softwares { get; set; }
         public DbSet<TipoEquipo> TiposEquipo { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
