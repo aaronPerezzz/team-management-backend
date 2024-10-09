@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using team_management_backend.domain.Entities;
-<<<<<<< HEAD
 using team_management_backend.Web.Model;
 using team_management_backend.Web.Model.Asignaciones;
 
