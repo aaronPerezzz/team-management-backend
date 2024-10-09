@@ -30,6 +30,7 @@ namespace team_management_backend
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
