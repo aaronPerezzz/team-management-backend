@@ -48,9 +48,9 @@ namespace team_management_backend.Controllers
         /// <returns></returns>
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<string>> Login([FromBody]UsuarioModel user)
+        public async Task<ActionResult<string>> Login([FromBody]UsuarioDTO user)
         {
-            BaseModel<string> response;
+            BaseDTO<string> response;
             try
             {
                 string tokenResult = await seguridadService.Login(user);
@@ -67,10 +67,10 @@ namespace team_management_backend.Controllers
         /// </summary>
         /// <returns>List<UsuarioModel></returns>
         [HttpGet("users")]
-        public async Task<ActionResult<List<UsuarioModel>>> GetAllUsers()
+        public async Task<ActionResult<List<UsuarioDTO>>> GetAllUsers()
         {
-            BaseModel<List<UsuarioModel>> users;
-            List<UsuarioModel> getAllUsers = new List<UsuarioModel> ();
+            BaseDTO<List<UsuarioDTO>> users;
+            List<UsuarioDTO> getAllUsers = new List<UsuarioDTO> ();
             try
             {
                 getAllUsers = await seguridadService.GetAllUsers();
@@ -86,18 +86,18 @@ namespace team_management_backend.Controllers
             }
         }
 
-        [HttpGet("users/{id:Guid}")]
+        [HttpGet("users/{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<UsuarioModel>> getUserById(Guid id)
+        public async Task<ActionResult<UsuarioDTO>> getUserById(string id)
         {
-            UsuarioModel userModel = new UsuarioModel();
-            BaseModel<UsuarioModel> user;
+            UsuarioDTO userModel = new UsuarioDTO();
+            BaseDTO<UsuarioDTO> user;
             try
             {
                 userModel = await seguridadService.GetUserById(id);
                 if (userModel is null)
                 {
-                    return NotFound(user = new (Constantes.FALSE, "Usuario no existe", new UsuarioModel()));
+                    return NotFound(user = new (Constantes.FALSE, "Usuario no existe", new UsuarioDTO()));
                 }
             }
             catch (CustomException ex) {
@@ -113,9 +113,9 @@ namespace team_management_backend.Controllers
         /// <param name="usuarioModel"></param>
         /// <returns>ActionResult<string></returns>
         [HttpPut("roles")]
-        public async Task<ActionResult<BaseModel<string>>> EditRol(UsuarioModel usuarioModel)
+        public async Task<ActionResult<BaseDTO<string>>> EditRol(UsuarioDTO usuarioModel)
         {
-            BaseModel<string> responseRol;
+            BaseDTO<string> responseRol;
             try
             {
                 string changeRol = await seguridadService.EditRol(usuarioModel);
@@ -136,12 +136,12 @@ namespace team_management_backend.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("roles")]
-        public async Task<ActionResult<List<RolModel>>> GetRoles()
+        public async Task<ActionResult<List<RolDTO>>> GetRoles()
         {
-            BaseModel<List<RolModel>> rolesList;
+            BaseDTO<List<RolDTO>> rolesList;
             try
             {
-                List<RolModel> roles = await seguridadService.Roles();
+                List<RolDTO> roles = await seguridadService.Roles();
                 if (roles.Count < 1)
                 {
                     return BadRequest(rolesList = new (Constantes.FALSE, Constantes.ERROR_SEG04));

@@ -2,7 +2,7 @@
 
 namespace team_management_backend.Web.Model
 {
-    public class SoftwareModel
+    public class SoftwareDTO
     {
         public int? Id { get; set; }
         public string Marca { get; set; }

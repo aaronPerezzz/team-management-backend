@@ -37,7 +37,7 @@ namespace team_management_backend.domain.Interfaces.Service
         /// <param name="userModel"></param>
         /// <returns>string</returns>
         /// <exception cref="CustomException"></exception>
-        async Task<string> ISeguridad.EditRol(UsuarioModel userModel)
+        async Task<string> ISeguridad.EditRol(UsuarioDTO userModel)
         {
             var queryUser = await userManager.FindByEmailAsync(userModel.Correo);
             if (queryUser is null)
@@ -68,15 +68,15 @@ namespace team_management_backend.domain.Interfaces.Service
         /// </summary>
         /// <returns>List<UsuarioModel></returns>
         /// <exception cref="CustomException"></exception>
-        async Task<List<UsuarioModel>> ISeguridad.GetAllUsers()
+        async Task<List<UsuarioDTO>> ISeguridad.GetAllUsers()
         {
-            List<UsuarioModel> users = new List<UsuarioModel>();
+            List<UsuarioDTO> users = new List<UsuarioDTO>();
             try
             {
                 users = await (from user in context.Users
                                join userRole in context.UserRoles on user.Id equals userRole.UserId
                                join role in context.Roles on userRole.RoleId equals role.Id
-                               select new UsuarioModel
+                               select new UsuarioDTO
                                {
                                    NombreCompleto = user.NombreCompleto,
                                    Correo = user.Email,
@@ -91,17 +91,16 @@ namespace team_management_backend.domain.Interfaces.Service
             return users;
         }
 
-        async Task<UsuarioModel> ISeguridad.GetUserById(Guid id)
+        async Task<UsuarioDTO> ISeguridad.GetUserById(string email)
         {
-            UsuarioModel userModel;
-            Guid guid = id;
+            UsuarioDTO userModel;
             try
             {
                 userModel = await (from user in context.Users
                                    join userRole in context.UserRoles on user.Id equals userRole.UserId
                                    join role in context.Roles on userRole.RoleId equals role.Id
-                                   where user.Id == id.ToString()
-                                   select new UsuarioModel
+                                   where user.Email == email
+                                   select new UsuarioDTO
                                    {
                                        NombreCompleto = user.NombreCompleto,
                                        Correo = user.Email,
@@ -121,7 +120,7 @@ namespace team_management_backend.domain.Interfaces.Service
         /// </summary>
         /// <param name="usuario"></param>
         /// <returns>string</returns>
-        async Task<string> ISeguridad.Login(UsuarioModel usuario)
+        async Task<string> ISeguridad.Login(UsuarioDTO usuario)
         {
             Usuario searchUser = await userManager.FindByEmailAsync(usuario.Correo);
             if (searchUser == null)
@@ -137,9 +136,9 @@ namespace team_management_backend.domain.Interfaces.Service
         /// Obtiene los roles de la base de datos
         /// </summary>
         /// <returns>List<RolModel></returns>
-        async Task<List<RolModel>> ISeguridad.Roles()
+        async Task<List<RolDTO>> ISeguridad.Roles()
         {
-            var roles = await context.Roles.Select(x => new RolModel { Nombre = x.Name! }).ToListAsync();
+            var roles = await context.Roles.Select(x => new RolDTO { Nombre = x.Name! }).ToListAsync();
             return roles;
         }
 
@@ -149,7 +148,7 @@ namespace team_management_backend.domain.Interfaces.Service
         /// <param name="userDTO"></param>
         /// <returns>Usuario</returns>
         /// <exception cref="CustomException"></exception>
-        private async Task<Usuario> CreateUser(UsuarioModel userDTO)
+        private async Task<Usuario> CreateUser(UsuarioDTO userDTO)
         {
             //Creacion de nuevo usuario
             var newUser = new Usuario()
@@ -170,7 +169,7 @@ namespace team_management_backend.domain.Interfaces.Service
             return user;
         }
 
-        public Task<List<RolModel>> Roles()
+        public Task<List<RolDTO>> Roles()
         {
             throw new NotImplementedException();
         }

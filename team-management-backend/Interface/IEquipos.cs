@@ -5,7 +5,7 @@ namespace team_management_backend.Domain.Interfaces.Repository
 {
     public interface IEquipos
     {
-        Task<Equipo> SaveEquipment(EquipoModel equipo);
+        Task<Equipo> SaveEquipment(EquipoDTO equipo);
         Task<List<Equipo>> GetEquipmentAll();
         Task<Equipo> GetFindById(int id);
         Task<Equipo> GetFindByType(string type);

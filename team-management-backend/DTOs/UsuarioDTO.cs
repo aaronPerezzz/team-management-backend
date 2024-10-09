@@ -6,7 +6,7 @@
  */
 namespace team_management_backend.Web.Model
 {
-    public class UsuarioModel
+    public class UsuarioDTO
     {
         [EmailAddress]
         [Required]

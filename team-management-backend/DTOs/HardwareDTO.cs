@@ -2,7 +2,7 @@
 
 namespace team_management_backend.Web.Model
 {
-    public class HardwareModel
+    public class HardwareDTO
     {
         public int? Id { get; set; }
         public string Marca { get; set; }

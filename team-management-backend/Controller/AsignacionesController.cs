@@ -28,9 +28,9 @@ namespace team_management_backend.Web.Controller
         /// </summary>
         /// <returns>List<AsignacionRegistroDTO></returns>
         [HttpGet]
-        public async Task<ActionResult<BaseModel<List<AsignacionRegistroDTO>>>> GetAssignments()
+        public async Task<ActionResult<BaseDTO<List<AsignacionRegistroDTO>>>> GetAssignments()
         {
-            BaseModel<List<AsignacionRegistroDTO>> respuesta;
+            BaseDTO<List<AsignacionRegistroDTO>> respuesta;
             try
             {
                 var asignaciones = await asignacionService.GetAllAssignments();
@@ -52,31 +52,31 @@ namespace team_management_backend.Web.Controller
         /// </summary>
         /// <returns>List<AsignacionRegistroDTO></returns>
         [HttpGet("equipo")]
-        public async Task<ActionResult<BaseModel<List<AsignacionRegistroDTO>>>> GetAssignmentsByType([FromQuery] string tipoEquipo)
+        public async Task<ActionResult<BaseDTO<List<AsignacionRegistroDTO>>>> GetAssignmentsByType([FromQuery] string tipoEquipo)
         {
-            BaseModel<List<AsignacionRegistroDTO>> respuesta;
+            BaseDTO<List<AsignacionRegistroDTO>> respuesta;
 
             bool tipoEquipoExiste = await asignacionService.ExisteTipoEquipo(tipoEquipo);
 
             if (!tipoEquipoExiste)
             {
-                return BadRequest(respuesta = new BaseModel<List<AsignacionRegistroDTO>>(false, $"El tipo de equipo '{tipoEquipo}' no existe."));
+                return BadRequest(respuesta = new BaseDTO<List<AsignacionRegistroDTO>>(false, $"El tipo de equipo '{tipoEquipo}' no existe."));
             }
 
             var assignments = await asignacionService.GetAssignmentsByType(tipoEquipo);
 
             if (assignments == null || !assignments.Any())
             {
-                return NotFound(respuesta = new BaseModel<List<AsignacionRegistroDTO>>(false, "No se encontraron asignaciones para el tipo de equipo proporcionado."));
+                return NotFound(respuesta = new BaseDTO<List<AsignacionRegistroDTO>>(false, "No se encontraron asignaciones para el tipo de equipo proporcionado."));
             }
 
-            return Ok(respuesta = new BaseModel<List<AsignacionRegistroDTO>>(true, "Éxito", assignments));
+            return Ok(respuesta = new BaseDTO<List<AsignacionRegistroDTO>>(true, "Éxito", assignments));
         }
 
         [HttpGet("usuario")]
-        public async Task<ActionResult<BaseModel<List<AsignacionRegistroDTO>>>> GetUserAssignments([FromQuery]string correo)
+        public async Task<ActionResult<BaseDTO<List<AsignacionRegistroDTO>>>> GetUserAssignments([FromQuery]string correo)
         {
-            BaseModel<List<AsignacionRegistroDTO>> respuesta;
+            BaseDTO<List<AsignacionRegistroDTO>> respuesta;
 
             try
             {
@@ -86,18 +86,18 @@ namespace team_management_backend.Web.Controller
             }
             catch (CustomException ex)
             {
-                return BadRequest(new BaseModel<List<AsignacionRegistroDTO>>(false, ex.Message));
+                return BadRequest(new BaseDTO<List<AsignacionRegistroDTO>>(false, ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new BaseModel<List<AsignacionRegistroDTO>>(false, "Error no controlado: " + ex.Message));
+                return StatusCode(500, new BaseDTO<List<AsignacionRegistroDTO>>(false, "Error no controlado: " + ex.Message));
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<BaseModel<int>>> CreateAssignment([FromBody] AsignacionCrearDTO asignacion)
+        public async Task<ActionResult<BaseDTO<int>>> CreateAssignment([FromBody] AsignacionCrearDTO asignacion)
         {
-            BaseModel<int> respuestas;
+            BaseDTO<int> respuestas;
             try
             {
                 var res = await asignacionService.CreateAssignment(asignacion);

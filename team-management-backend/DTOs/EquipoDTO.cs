@@ -3,7 +3,7 @@ using team_management_backend.domain.Entities;
 
 namespace team_management_backend.Web.Model
 {
-    public class EquipoModel
+    public class EquipoDTO
     {
         public int? Id { get; set; }
         [Required]
@@ -18,11 +18,11 @@ namespace team_management_backend.Web.Model
         public string CorreoUsuario { get; set; }
         [Required]
         public DateTime FechaCompra { get; set; }
-        public PolizaModel? Poliza { get; set; }
-        public GarantiaModel? Garantia { get; set; }
-        public CaracteristicasTransporteModel? CaracteristicasTransporte { get; set; }
-        public List<SoftwareModel>? Software { get; set; }
-        public List<HardwareModel>? Hardware { get; set; }
+        public PolizaDTO? Poliza { get; set; }
+        public GarantiaDTO? Garantia { get; set; }
+        public CaracteristicasTransporteDTO? CaracteristicasTransporte { get; set; }
+        public List<SoftwareDTO>? Software { get; set; }
+        public List<HardwareDTO>? Hardware { get; set; }
 
     }
 }

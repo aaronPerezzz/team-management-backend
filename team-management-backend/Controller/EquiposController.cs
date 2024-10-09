@@ -33,9 +33,9 @@ namespace team_management_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<EquipoModel>>> GetAll()
+        public async Task<ActionResult<List<EquipoDTO>>> GetAll()
         {
-            BaseModel<List<Equipo>> response;
+            BaseDTO<List<Equipo>> response;
             List<Equipo> equipoList;
             try
             {
@@ -53,9 +53,9 @@ namespace team_management_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BaseModel<EquipoModel>>> PostAll([FromBody] EquipoModel equipo)
+        public async Task<ActionResult<BaseDTO<EquipoDTO>>> PostAll([FromBody] EquipoDTO equipo)
         {
-            BaseModel<EquipoModel> response;
+            BaseDTO<EquipoDTO> response;
             Equipo model;
 
             try
@@ -66,7 +66,7 @@ namespace team_management_backend.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, response = new(Constantes.FALSE, ex.Message));
             }
 
-           return Ok(response = new(Constantes.TRUE, "Guardado con exito", mapper.Map<EquipoModel>(model)));
+           return Ok(response = new(Constantes.TRUE, "Guardado con exito", mapper.Map<EquipoDTO>(model)));
         }
 
 

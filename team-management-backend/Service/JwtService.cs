@@ -26,7 +26,7 @@ namespace team_management_backend.Domain.Interfaces.Service
                 new Claim(ClaimTypes.Name, user.NombreCompleto)
             };
 
-            var jwt = configuration.GetSection("jwt").Get<JwtModel>();
+            var jwt = configuration.GetSection("jwt").Get<JwtDTO>();
             var keyToken = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:key"]));
             var credentialsLogin = new SigningCredentials(keyToken, SecurityAlgorithms.HmacSha256);
             var expirationToken = DateTime.UtcNow.AddMinutes(30);

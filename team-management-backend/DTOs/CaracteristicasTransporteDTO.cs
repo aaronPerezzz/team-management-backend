@@ -2,7 +2,7 @@
 
 namespace team_management_backend.Web.Model
 {
-    public class CaracteristicasTransporteModel
+    public class CaracteristicasTransporteDTO
     {
         public int? Id { get; set; }
         public int IdEquipo { get; set; }

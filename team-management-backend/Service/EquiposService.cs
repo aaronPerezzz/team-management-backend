@@ -29,10 +29,10 @@ namespace team_management_backend.Domain.Interfaces.Service
             this.mapper = mapper;
         }
 
-        public async Task<Equipo> SaveEquipment(EquipoModel equipo)
+        public async Task<Equipo> SaveEquipment(EquipoDTO equipo)
         {
-            List<TipoEquipo> typesEquitment = await tipoEquipoService.GetAll();
-            TipoEquipo isCorrectType = typesEquitment.Find(t => t.Id.Equals(equipo.IdTipoEquipo));
+            List<TipoEquipoDTO> typesEquitment = await tipoEquipoService.GetAll();
+            TipoEquipoDTO isCorrectType = typesEquitment.Find(t => t.Id.Equals(equipo.IdTipoEquipo));
             if (isCorrectType is null)
             {
                 throw new CustomException("No existe el tipo de equipo");

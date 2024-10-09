@@ -6,7 +6,7 @@
 
 namespace team_management_backend.Web.Model
 {
-    public class JwtModel
+    public class JwtDTO
     {
         public string Key { get; set; } = null!;
         public string Issuer { get; set; }

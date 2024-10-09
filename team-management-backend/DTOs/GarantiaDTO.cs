@@ -2,12 +2,12 @@
 
 namespace team_management_backend.Web.Model
 {
-    public class PolizaModel
+    public class GarantiaDTO
     {
         public int? Id { get; set; }
-        public string Aseguradora { get; set; }
-        public string Numero_poliza { get; set; }
-        public string Cobertura { get; set; }
+        public string Tipo_Garantia { get; set; }
+        public string Proveedor { get; set; }
+        public string Estado { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
     }

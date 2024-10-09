@@ -10,11 +10,11 @@ namespace team_management_backend.Mapper
         public AutoMapperProfiles()
         {
             CreateMap<AsignacionCrearDTO, Asignacion>();
-            CreateMap<TipoEquipo, TipoEquipoModel>();
-            CreateMap<Equipo, EquipoModel>().ReverseMap();
-            CreateMap<Garantia, GarantiaModel>().ReverseMap();
-            CreateMap<Poliza, PolizaModel>().ReverseMap(); 
-            CreateMap<CaracteristicasTransporte, CaracteristicasTransporteModel>().ReverseMap();
+            CreateMap<TipoEquipo, TipoEquipoDTO>().ReverseMap();
+            CreateMap<Equipo, EquipoDTO>().ReverseMap();
+            CreateMap<Garantia, GarantiaDTO>().ReverseMap();
+            CreateMap<Poliza, PolizaDTO>().ReverseMap(); 
+            CreateMap<CaracteristicasTransporte, CaracteristicasTransporteDTO>().ReverseMap();
         }
     }
 }
