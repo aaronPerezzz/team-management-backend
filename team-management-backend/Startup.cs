@@ -6,11 +6,9 @@ using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using team_management_backend.Context;
-using team_management_backend.domain.Entities;
-using team_management_backend.domain.Interfaces.Repository;
-using team_management_backend.domain.Interfaces.Service;
-using team_management_backend.Domain.Interfaces.Repository;
-using team_management_backend.Domain.Interfaces.Service;
+using team_management_backend.Entities;
+using team_management_backend.Interfaces;
+using team_management_backend.Service;
 
 namespace team_management_backend
 {

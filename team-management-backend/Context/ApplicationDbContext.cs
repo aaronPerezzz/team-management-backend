@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using team_management_backend.domain.Entities;
+using team_management_backend.Entities;
 
 namespace team_management_backend.Context
 {

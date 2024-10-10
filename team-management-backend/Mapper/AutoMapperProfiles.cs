@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using team_management_backend.domain.Entities;
-using team_management_backend.Web.Model.Asignaciones;
+using team_management_backend.Entities;
+using team_management_backend.Model.Asignaciones;
 
 namespace team_management_backend.Mapper
 {
