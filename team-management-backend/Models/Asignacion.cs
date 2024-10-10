@@ -17,8 +17,8 @@ namespace team_management_backend.Models
 
         public DateTime? FechaAsignacion { get; set; }
         public DateTime? FechaFinAsignacion { get; set; }
-        public string IdUsuarioCreacion { get; set; }
-        public string IdUsuarioModificacion { get; set; }
+        public string? IdUsuarioCreacion { get; set; }
+        public string? IdUsuarioModificacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 

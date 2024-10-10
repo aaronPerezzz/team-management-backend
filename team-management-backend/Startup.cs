@@ -6,8 +6,8 @@ using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using team_management_backend.Context;
-using team_management_backend.Entities;
-using team_management_backend.Interfaces;
+using team_management_backend.Interface;
+using team_management_backend.Models;
 using team_management_backend.Service;
 
 namespace team_management_backend
@@ -23,11 +23,10 @@ namespace team_management_backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAsignacion, AsignacionService>();
+            
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
-
             services.AddAutoMapper(typeof(Startup));
 
             services.AddIdentity<Usuario, IdentityRole>()
@@ -89,9 +88,11 @@ namespace team_management_backend
                 });
             });
 
-
+            services.AddScoped<IAsignacion, AsignacionService>();
             services.AddScoped<ISeguridad, SeguridadService>();
             services.AddScoped<JwtService>();
+            services.AddScoped<IEquipos, EquiposService>();
+            services.AddScoped<ITipoEquipo, TipoEquipoService>();
 
         }
 

@@ -4,7 +4,7 @@
  */
 namespace team_management_backend.DTOs
 {
-    public class RolModel
+    public class RolDTO
     {
         public string Nombre { get; set; } = null!;
     }

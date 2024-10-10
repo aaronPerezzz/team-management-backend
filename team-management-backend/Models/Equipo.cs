@@ -11,11 +11,6 @@ namespace team_management_backend.Models
         public int IdTipoEquipo { get; set; }
 
         [Required]
-        public int IdGarantia { get; set; }
-
-        public int? IdPoliza { get; set; }
-
-        [Required]
         public string Marca { get; set; }
 
         [Required]
@@ -25,11 +20,14 @@ namespace team_management_backend.Models
         public string Estado { get; set; }
 
         [Required]
-        public DateTime FechaCompra { get; set; }
+        public string Serial { get; set; }
 
-        public string IdUsuarioCreacion { get; set; }
+        [Required]
+        public DateOnly FechaCompra { get; set; }
 
-        public string IdUsuarioModificacion { get; set; }
+        public string? IdUsuarioCreacion { get; set; }
+
+        public string? IdUsuarioModificacion { get; set; }
 
         public DateTime? FechaCreacion { get; set; }
 
@@ -39,9 +37,9 @@ namespace team_management_backend.Models
         public TipoEquipo TipoEquipo { get; set; }
         public Garantia Garantia { get; set; }
         public Poliza Poliza { get; set; }
-        public List<EquipoHardware> EquiposHardware { get; set; }
-        public List<EquipoSoftware> EquiposSoftware { get; set; }
         public CaracteristicasTransporte CaracteristicasTransporte { get; set; }
+        public List<Software> Software { get; set; }
+        public List<Hardware> Hardware { get; set; }
     }
 
 

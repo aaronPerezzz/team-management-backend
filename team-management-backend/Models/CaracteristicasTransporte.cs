@@ -21,15 +21,15 @@ namespace team_management_backend.Models
         [Required]
         public string Transmision { get; set; }
 
-        public string Cilindrada { get; set; }
+        public string? Cilindrada { get; set; }
 
-        public string Combustible { get; set; }
+        public string? Combustible { get; set; }
 
         [Required]
         public int AñoCompra { get; set; }
 
-        public string IdUsuarioCreacion { get; set; }
-        public string IdUsuarioModificacion { get; set; }
+        public string? IdUsuarioCreacion { get; set; }
+        public string? IdUsuarioModificacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
 

@@ -10,9 +10,10 @@ namespace team_management_backend.Interface
 {
     public interface ISeguridad
     {
-        Task<string> Login(UsuarioModel usuario);
-        Task<List<RolModel>> Roles();
-        Task<List<UsuarioModel>> GetAllUsers();
-        Task<string> EditRol(UsuarioModel usuario);
+        Task<string> Login(UsuarioDTO usuario);
+        Task<List<RolDTO>> Roles();
+        Task<List<UsuarioDTO>> GetAllUsers();
+        Task<string> EditRol(UsuarioDTO usuario);
+        Task<UsuarioDTO> GetUserById(string id);
     }
 }

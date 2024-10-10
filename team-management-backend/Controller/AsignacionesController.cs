@@ -32,9 +32,9 @@ namespace team_management_backend.Controller
         /// <param name="pag"></param>
         /// <returns>List<AsignacionRegistroDTO></returns>
         [HttpGet]
-        public async Task<ActionResult<BaseModel<List<AsignacionRegistroDTO>>>> GetAssignments([FromQuery] PaginationDTO pag)
+        public async Task<ActionResult<BaseDTO<List<AsignacionRegistroDTO>>>> GetAssignments([FromQuery] PaginationDTO pag)
         {
-            BaseModel<List<AsignacionRegistroDTO>> respuesta;
+            BaseDTO<List<AsignacionRegistroDTO>> respuesta;
             try
             {
                 var asignaciones = await asignacionService.GetAllAssignments(pag);
@@ -58,25 +58,25 @@ namespace team_management_backend.Controller
         /// <param name="pag"></param>
         /// <returns>List<AsignacionRegistroDTO></returns>
         [HttpGet("equipo")]
-        public async Task<ActionResult<BaseModel<List<AsignacionRegistroDTO>>>> GetAssignmentsByType([FromQuery] string tipoEquipo, [FromQuery]  PaginationDTO pag)
+        public async Task<ActionResult<BaseDTO<List<AsignacionRegistroDTO>>>> GetAssignmentsByType([FromQuery] string tipoEquipo, [FromQuery]  PaginationDTO pag)
         {
-            BaseModel<List<AsignacionRegistroDTO>> respuesta;
+            BaseDTO<List<AsignacionRegistroDTO>> respuesta;
 
             bool tipoEquipoExiste = await asignacionService.ThereIsEquipment(tipoEquipo);
 
             if (!tipoEquipoExiste)
             {
-                return BadRequest(respuesta = new BaseModel<List<AsignacionRegistroDTO>>(false, Constantes.ERROR_AS08 + tipoEquipo));
+                return BadRequest(respuesta = new BaseDTO<List<AsignacionRegistroDTO>>(false, Constantes.ERROR_AS08 + tipoEquipo));
             }
 
             var assignments = await asignacionService.GetAssignmentsByType(tipoEquipo, pag);
 
             if (assignments == null || !assignments.Any())
             {
-                return NotFound(respuesta = new BaseModel<List<AsignacionRegistroDTO>>(false, Constantes.ERROR_AS09));
+                return NotFound(respuesta = new BaseDTO<List<AsignacionRegistroDTO>>(false, Constantes.ERROR_AS09));
             }
 
-            return Ok(respuesta = new BaseModel<List<AsignacionRegistroDTO>>(true, Constantes.MSJ_AS03, assignments));
+            return Ok(respuesta = new BaseDTO<List<AsignacionRegistroDTO>>(true, Constantes.MSJ_AS03, assignments));
         }
 
 
@@ -87,9 +87,9 @@ namespace team_management_backend.Controller
         /// <param string correo></param>
         /// <returns>List<AsignacionRegistroDTO></returns>
         [HttpGet("usuario")]
-        public async Task<ActionResult<BaseModel<List<AsignacionRegistroDTO>>>> GetUserAssignments([FromQuery] string correo)
+        public async Task<ActionResult<BaseDTO<List<AsignacionRegistroDTO>>>> GetUserAssignments([FromQuery] string correo)
         {
-            BaseModel<List<AsignacionRegistroDTO>> respuesta;
+            BaseDTO<List<AsignacionRegistroDTO>> respuesta;
             try
             {
                 var (lstAsignaciones, msj) = await asignacionService.UserAssignment(correo);
@@ -98,11 +98,11 @@ namespace team_management_backend.Controller
             }
             catch (CustomException ex)
             {
-                return BadRequest(new BaseModel<List<AsignacionRegistroDTO>>(false, ex.Message));
+                return BadRequest(new BaseDTO<List<AsignacionRegistroDTO>>(false, ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new BaseModel<List<AsignacionRegistroDTO>>(false, Constantes.ERROR_AS10 + ex.Message));
+                return StatusCode(500, new BaseDTO<List<AsignacionRegistroDTO>>(false, Constantes.ERROR_AS10 + ex.Message));
             }
         }
 
@@ -112,9 +112,9 @@ namespace team_management_backend.Controller
         /// <param name="asignacion"></param>
         /// <returns>List<AsignacionCrearDTO></returns>
         [HttpPost]
-        public async Task<ActionResult<BaseModel<int>>> CreateAssignment([FromBody] AsignacionCrearDTO asignacion)
+        public async Task<ActionResult<BaseDTO<int>>> CreateAssignment([FromBody] AsignacionCrearDTO asignacion)
         {
-            BaseModel<int> respuestas;
+            BaseDTO<int> respuestas;
             try
             {
                 var res = await asignacionService.CreateAssignment(asignacion);
@@ -139,9 +139,9 @@ namespace team_management_backend.Controller
         /// <param name="asignacion"></param>
         /// <returns>List<AsignacionRegistroDTO></returns>
         [HttpPut]
-        public async Task<ActionResult<BaseModel<int>>> EditarReservacion([FromBody] AsignacionEditarDTO asignacion)
+        public async Task<ActionResult<BaseDTO<int>>> EditarReservacion([FromBody] AsignacionEditarDTO asignacion)
         {
-            BaseModel<int> respuestas;
+            BaseDTO<int> respuestas;
             try
             {
                 var res = await asignacionService.UpdateAssignment(asignacion);
@@ -156,7 +156,7 @@ namespace team_management_backend.Controller
                 return StatusCode(500, respuestas = new(false, Constantes.ERROR_AS07 + ex.Message));
             }
 
-        }
+            }
 
 
         /// <summary>
@@ -165,9 +165,9 @@ namespace team_management_backend.Controller
         /// <param int id></param>
         /// <returns>string</returns>
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult<BaseModel<string>>> DeleteAssignment(int id)
+        public async Task<ActionResult<BaseDTO<string>>> DeleteAssignment(int id)
         {
-            BaseModel<string> respuestas;
+            BaseDTO<string> respuestas;
             if (id < 0) return BadRequest(respuestas = new(false, Constantes.ERROR_AS11, default));
             try
             {

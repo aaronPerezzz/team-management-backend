@@ -48,7 +48,7 @@ namespace team_management_backend.Service
                 .Select(x => new AsignacionRegistroDTO
                 {
                     Id = x.Asignacion.Id,
-                    NombreUsuario = x.UserName,
+                    NombreUsuario = x.UserName, 
                     Marca = x.Asignacion.Equipo.Marca,
                     Modelo = x.Asignacion.Equipo.Modelo,
                     TipoEquipo = x.Asignacion.Equipo.TipoEquipo.Nombre,
@@ -91,7 +91,7 @@ namespace team_management_backend.Service
                 .Select(x => new AsignacionRegistroDTO
                 {
                     Id = x.Asignacion.Id,
-                    NombreUsuario = x.UserName,
+                    NombreUsuario = x.UserName, 
                     Marca = x.Asignacion.Equipo.Marca,
                     Modelo = x.Asignacion.Equipo.Modelo,
                     TipoEquipo = x.Asignacion.Equipo.TipoEquipo.Nombre,
@@ -179,7 +179,7 @@ namespace team_management_backend.Service
             var NuevaAsignacion = mapper.Map<Asignacion>(asignacion);
             NuevaAsignacion.IdUsuario = usuario.Id;
             NuevaAsignacion.IdUsuarioCreacion = admin.Id;
-            NuevaAsignacion.FechaCreacion = DateTime.Now;
+            NuevaAsignacion.FechaCreacion = DateTime.Now; 
 
             if (asignacion.esTemporal && asignacion.FechaFinAsignacion < asignacion.FechaAsignacion)
             {
@@ -217,7 +217,7 @@ namespace team_management_backend.Service
             var asignacionExistente = await context.Asignaciones
                 .FirstOrDefaultAsync(a => a.IdEquipo == asignacion.IdEquipo && a.Id != asignacion.Id && a.FechaFinAsignacion == null);
             if (asignacionExistente != null)
-            {
+                {
                 throw new CustomException(Constantes.ERROR_AS04);
             }
 

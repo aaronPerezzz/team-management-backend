@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net;
 using team_management_backend.Context;
-using team_management_backend.Entities;
 using team_management_backend.Exceptions;
 using team_management_backend.Interface;
 using team_management_backend.DTOs;
 using team_management_backend.Utils;
+using team_management_backend.Models;
 
 
 /**
@@ -47,9 +48,9 @@ namespace team_management_backend.Controller
         /// <returns></returns>
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<string>> Login([FromBody] UsuarioModel user)
+        public async Task<ActionResult<string>> Login([FromBody]UsuarioDTO user)
         {
-            BaseModel<string> response;
+            BaseDTO<string> response;
             try
             {
                 string tokenResult = await seguridadService.Login(user);
@@ -66,10 +67,10 @@ namespace team_management_backend.Controller
         /// </summary>
         /// <returns>List<UsuarioModel></returns>
         [HttpGet("users")]
-        public async Task<ActionResult<List<UsuarioModel>>> GetAllUsers()
+        public async Task<ActionResult<List<UsuarioDTO>>> GetAllUsers()
         {
-            BaseModel<List<UsuarioModel>> users;
-            List<UsuarioModel> getAllUsers = new List<UsuarioModel>();
+            BaseDTO<List<UsuarioDTO>> users;
+            List<UsuarioDTO> getAllUsers = new List<UsuarioDTO> ();
             try
             {
                 getAllUsers = await seguridadService.GetAllUsers();
@@ -85,6 +86,26 @@ namespace team_management_backend.Controller
             }
         }
 
+        [HttpGet("users/{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UsuarioDTO>> getUserById(string id)
+        {
+            UsuarioDTO userModel = new UsuarioDTO();
+            BaseDTO<UsuarioDTO> user;
+            try
+            {
+                userModel = await seguridadService.GetUserById(id);
+                if (userModel is null)
+                {
+                    return NotFound(user = new (Constantes.FALSE, "Usuario no existe", new UsuarioDTO()));
+                }
+            }
+            catch (CustomException ex) {
+                return StatusCode((int)HttpStatusCode.InternalServerError, user = new(false, ex.Message));
+            }
+            return Ok(user = new (Constantes.TRUE, "Usuario", userModel));
+        }
+
 
         /// <summary>
         /// Modifica el rol de un usuario
@@ -92,9 +113,9 @@ namespace team_management_backend.Controller
         /// <param name="usuarioModel"></param>
         /// <returns>ActionResult<string></returns>
         [HttpPut("roles")]
-        public async Task<ActionResult<BaseModel<string>>> EditRol(UsuarioModel usuarioModel)
+        public async Task<ActionResult<BaseDTO<string>>> EditRol(UsuarioDTO usuarioModel)
         {
-            BaseModel<string> responseRol;
+            BaseDTO<string> responseRol;
             try
             {
                 string changeRol = await seguridadService.EditRol(usuarioModel);
@@ -115,12 +136,12 @@ namespace team_management_backend.Controller
         /// </summary>
         /// <returns></returns>
         [HttpGet("roles")]
-        public async Task<ActionResult<List<RolModel>>> GetRoles()
+        public async Task<ActionResult<List<RolDTO>>> GetRoles()
         {
-            BaseModel<List<RolModel>> rolesList;
+            BaseDTO<List<RolDTO>> rolesList;
             try
             {
-                List<RolModel> roles = await seguridadService.Roles();
+                List<RolDTO> roles = await seguridadService.Roles();
                 if (roles.Count < 1)
                 {
                     return BadRequest(rolesList = new(Constantes.FALSE, Constantes.ERROR_SEG04));
