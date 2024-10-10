@@ -10,7 +10,7 @@ namespace team_management_backend.Web.Model
         public string? Descripcion { get; set; }
         public string Serial { get; set; }
         public string Version { get; set; }
-        public DateTime FechaCompra { get; set; }
-        public DateTime FechaInstalacion { get; set; }
+        public DateOnly FechaCompra { get; set; }
+        public DateOnly FechaInstalacion { get; set; }
     }
 }

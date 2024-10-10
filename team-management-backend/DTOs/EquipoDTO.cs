@@ -17,7 +17,9 @@ namespace team_management_backend.Web.Model
         [Required]
         public string CorreoUsuario { get; set; }
         [Required]
-        public DateTime FechaCompra { get; set; }
+        public string Serial { get; set; }
+        [Required]
+        public DateOnly FechaCompra { get; set; }
         public PolizaDTO? Poliza { get; set; }
         public GarantiaDTO? Garantia { get; set; }
         public CaracteristicasTransporteDTO? CaracteristicasTransporte { get; set; }
