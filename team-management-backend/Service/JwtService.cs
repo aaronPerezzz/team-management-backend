@@ -3,8 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using team_management_backend.Entities;
-using team_management_backend.Model;
+using team_management_backend.Models;
+using team_management_backend.DTOs;
 
 namespace team_management_backend.Service
 {

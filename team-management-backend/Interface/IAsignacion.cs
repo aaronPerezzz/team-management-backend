@@ -1,7 +1,7 @@
-﻿using team_management_backend.Model.Asignaciones;
+﻿using team_management_backend.DTOs.Asignaciones;
 using team_management_backend.Utils.Pagination;
 
-namespace team_management_backend.Interfaces
+namespace team_management_backend.Interface
 {
     public interface IAsignacion
     {

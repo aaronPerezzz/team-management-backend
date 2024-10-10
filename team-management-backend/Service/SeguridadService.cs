@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using team_management_backend.Context;
-using team_management_backend.Entities;
+using team_management_backend.Models;
 using team_management_backend.Exceptions;
-using team_management_backend.Interfaces;
-using team_management_backend.Model;
+using team_management_backend.Interface;
+using team_management_backend.DTOs;
 using team_management_backend.Utils;
 
 

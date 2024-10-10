@@ -1,4 +1,4 @@
-﻿namespace team_management_backend.Model.Asignaciones
+﻿namespace team_management_backend.DTOs.Asignaciones
 {
     public class AsignacionRegistroDTO
     {

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
 using team_management_backend.Exceptions;
-using team_management_backend.Interfaces;
-using team_management_backend.Model;
-using team_management_backend.Model.Asignaciones;
+using team_management_backend.Interface;
+using team_management_backend.DTOs;
+using team_management_backend.DTOs.Asignaciones;
 using team_management_backend.Utils;
 using team_management_backend.Utils.Pagination;
 

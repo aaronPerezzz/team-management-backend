@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
  * @author Aaron Pérez
  * @since 07/10/2024
  */
-namespace team_management_backend.Entities
+namespace team_management_backend.Models
 {
     public class Usuario : IdentityUser
     {
