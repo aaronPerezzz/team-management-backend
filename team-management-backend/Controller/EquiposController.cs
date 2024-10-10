@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
-using Azure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Net;
-using team_management_backend.domain.Entities;
 using team_management_backend.Domain.Interfaces.Repository;
 using team_management_backend.DTOs;
 using team_management_backend.Exceptions;
@@ -92,7 +86,6 @@ namespace team_management_backend.Controllers
         }
 
         [HttpGet("{typeEquipment}")]
-        [DefaultValue("Transporte")]
         public async Task<ActionResult<BaseDTO<List<PorTipoEquipoDTO>>>> GetByTypeEquipment(string typeEquipment)
         {
             BaseDTO<List<PorTipoEquipoDTO>> responseTypeEquipment;
