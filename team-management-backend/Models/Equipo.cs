@@ -16,11 +16,13 @@ namespace team_management_backend.Models
         [Required]
         public string Modelo { get; set; }
 
-        [Required]
-        public string Estado { get; set; }
+        public string? Estado { get; set; }
 
         [Required]
         public string Serial { get; set; }
+
+        [Required]
+        public bool Estatus { get; set; }
 
         [Required]
         public DateOnly FechaCompra { get; set; }

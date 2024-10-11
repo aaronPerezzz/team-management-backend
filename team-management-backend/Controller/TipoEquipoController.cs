@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using Azure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using team_management_backend.domain.Entities;
-using team_management_backend.Domain.Interfaces.Repository;
+using team_management_backend.Models;
+using team_management_backend.Interface;
 using team_management_backend.Utils;
-using team_management_backend.Web.Model;
+using team_management_backend.DTOs;
 
 /*
  * @author Aaron Pérez

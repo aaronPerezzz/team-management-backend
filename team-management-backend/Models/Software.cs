@@ -11,24 +11,24 @@ namespace team_management_backend.Models
         public int IdEquipo { get; set; }
 
         [Required]
-        public string Marca { get; set; }
+        public string? Marca { get; set; }
 
         [Required]
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
 
         public string? Descripcion { get; set; }
 
         [Required]
-        public string Serial { get; set; }
+        public string? Serial { get; set; }
 
         [Required]
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         [Required]
-        public DateOnly FechaCompra { get; set; }
+        public DateOnly? FechaCompra { get; set; }
 
         [Required]
-        public DateOnly FechaInstalacion { get; set; }
+        public DateOnly? FechaInstalacion { get; set; }
 
 
 

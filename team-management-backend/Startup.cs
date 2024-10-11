@@ -46,7 +46,6 @@ namespace team_management_backend
                         Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
                     ClockSkew = TimeSpan.Zero
                 });
-
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>

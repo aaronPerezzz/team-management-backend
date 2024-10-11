@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using team_management_backend.Context;
 
@@ -11,9 +12,11 @@ using team_management_backend.Context;
 namespace team_management_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241010180826_nuevoCampo")]
+    partial class nuevoCampo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,6 +209,9 @@ namespace team_management_backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AñoCompra")
+                        .HasColumnType("int");
+
                     b.Property<string>("Cilindrada")
                         .HasColumnType("nvarchar(max)");
 
@@ -259,6 +265,7 @@ namespace team_management_backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Estado")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Estatus")
@@ -312,11 +319,11 @@ namespace team_management_backend.Migrations
                     b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("FechaFin")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("FechaInicio")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
@@ -411,11 +418,11 @@ namespace team_management_backend.Migrations
                     b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("FechaFin")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("FechaInicio")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
@@ -452,15 +459,13 @@ namespace team_management_backend.Migrations
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("FechaCompra")
-                        .IsRequired()
+                    b.Property<DateOnly>("FechaCompra")
                         .HasColumnType("date");
 
                     b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly?>("FechaInstalacion")
-                        .IsRequired()
+                    b.Property<DateOnly>("FechaInstalacion")
                         .HasColumnType("date");
 
                     b.Property<DateTime?>("FechaModificacion")

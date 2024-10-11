@@ -21,6 +21,8 @@ namespace team_management_backend.Mapper
             CreateMap<CaracteristicasTransporte, CaracteristicasTransporteDTO>().ReverseMap();
 
             CreateMap<TipoEquipo, PorTipoEquipoDTO>();
+            CreateMap<CaracteristicasTransporte, CaracteristicasTransporteEditarDTO>().ReverseMap();
+            CreateMap<EditarEquipoDTO, Equipo>().ReverseMap();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+﻿using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +7,8 @@ using team_management_backend.DTOs;
 using team_management_backend.Exceptions;
 using team_management_backend.Interface;
 using team_management_backend.Models;
+using team_management_backend.Utils;
+using team_management_backend.Utils.Pagination;
 
 /*
     @author Aaron Pérez
@@ -21,17 +23,20 @@ namespace team_management_backend.Service
         private readonly UserManager<Usuario> userManager;
         private readonly ITipoEquipo tipoEquipoService;
         private readonly IMapper mapper;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public EquiposService(
             ApplicationDbContext context,
             UserManager<Usuario> userManager,
              ITipoEquipo tipoEquipoService,
-             IMapper mapper)
+             IMapper mapper,
+             IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
             this.userManager = userManager;
             this.tipoEquipoService = tipoEquipoService;
             this.mapper = mapper;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -54,6 +59,7 @@ namespace team_management_backend.Service
             saveEquipo.FechaModificacion = dateNow;
             saveEquipo.IdUsuarioCreacion = userInformation.Id;
             saveEquipo.IdUsuarioModificacion = userInformation.Id;
+            saveEquipo.Estatus = Constantes.TRUE;
             SavePolizaAndGarantia(saveEquipo, userInformation, equipo, dateNow);
 
             if (typesEquitment.Nombre.Equals("Electrónico"))
@@ -121,29 +127,38 @@ namespace team_management_backend.Service
         }
 
         /// <summary>
-        /// 
+        /// Eliminar 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        Task IEquipos.DeleteById(int id)
+        public async Task DeleteById(int id, Equipo equipment)
         {
-            throw new NotImplementedException();
+            Usuario userInformation = await UserInformation();
+            equipment.Estatus = Constantes.FALSE;
+            equipment.FechaModificacion = DateTime.Now;
+            equipment.IdUsuarioModificacion = userInformation.Id;
+            await context.SaveChangesAsync();
+
         }
 
         /// <summary>
         /// Obtiene todos los equipos registrados
         /// </summary>
         /// <returns>List<EquipoDTO></returns>
-        public async Task<List<EquipoDTO>> GetEquipmentAll()
+        public async Task<List<EquipoDTO>> GetEquipmentAll(PaginationDTO pagination)
         {
-            List<Equipo> listTypeEquipment = await context.Equipos
+            IQueryable<Equipo> queryTypeEquipment = context.Equipos
                 .Include(g => g.Garantia)
                 .Include(p => p.Poliza)
                 .Include(ct => ct.CaracteristicasTransporte)
                 .Include(s => s.Software)
-                .Include(h => h.Hardware).ToListAsync();
-            return mapper.Map<List<EquipoDTO>>(listTypeEquipment);
+                .Include(h => h.Hardware)
+                .Where(e => e.Estatus)
+                .AsQueryable();
+
+            List<Equipo> typeEquipmentPagination = await queryTypeEquipment.Paginar(pagination).ToListAsync();
+            return mapper.Map<List<EquipoDTO>>(queryTypeEquipment);
         }
 
         /// <summary>
@@ -159,7 +174,7 @@ namespace team_management_backend.Service
                  .Include(ct => ct.CaracteristicasTransporte)
                 .Include(s => s.Software)
                 .Include(h => h.Hardware)
-                .FirstOrDefaultAsync(e => e.Id == id);
+                .FirstOrDefaultAsync(e => e.Id == id && e.Estatus);
 
             return mapper.Map<EquipoDTO>(findById);
         }
@@ -170,27 +185,124 @@ namespace team_management_backend.Service
         /// <param name="type"></param>
         /// <returns>EquipoDTO</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<PorTipoEquipoDTO>> GetFindByType(string type)
+        public async Task<List<EquipoDTO>> GetFindByType(string type, PaginationDTO pagination)
         {
-            List<TipoEquipo> equipmentByType = await context.TiposEquipo
-                .Include(e => e.Equipos)
-                .ThenInclude(g => g.Garantia)
-                .Include(e => e.Equipos)
-                .ThenInclude(p => p.Poliza)
-                .Include(e => e.Equipos)
-                .ThenInclude(c => c.CaracteristicasTransporte)
-                .Include(e => e.Equipos)
-                .ThenInclude(s => s.Software)
-                .Include(e => e.Equipos)
-                .ThenInclude(h => h.Hardware)
-                .Where(s => s.Nombre == type).ToListAsync();
+            IQueryable<Equipo> querybleEquipmentByType = context.Equipos
+                .Include(e => e.TipoEquipo)
+                .Where(t => t.TipoEquipo.Nombre == type && t.Estatus)
+                .Select(s => new Equipo
+                {
+                    Id = s.Id,
+                    IdTipoEquipo = s.IdTipoEquipo,
+                    Marca = s.Marca,
+                    Modelo = s.Modelo,
+                    Estado = s.Estado,
+                    Serial = s.Serial,
+                    Estatus = s.Estatus,
+                    Garantia = s.Garantia,
+                    Poliza = s.Poliza,
+                    CaracteristicasTransporte = s.CaracteristicasTransporte,
+                    Software = s.Software,
+                    Hardware = s.Hardware,
+                }).AsQueryable();
+            List<Equipo> listEquipment = await querybleEquipmentByType.Paginar(pagination).ToListAsync();
 
-            return mapper.Map<List<PorTipoEquipoDTO>>(equipmentByType);
+            return mapper.Map<List<EquipoDTO>>(listEquipment);
         }
 
-        Task IEquipos.UpdateEquipmentById(int id, EquipoDTO equipo)
+        /// <summary>
+        /// Modificacion de información
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="equipo"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task UpdateEquipmentById(int id, Equipo equipmentEntity, EditarEquipoDTO equipo)
         {
-            throw new NotImplementedException();
+            if (equipmentEntity.IdTipoEquipo != equipo.IdTipoEquipo)
+            {
+                throw new CustomException("El tipo de modificación no esta permitido");
+            }
+            Usuario userInformation = await UserInformation();
+            DateTime dateTime = DateTime.Now;
+            if (equipo.Estado is not null)
+            {
+                equipmentEntity.Estado = equipo.Estado;
+            }
+            if (equipo.Poliza is not null)
+            {
+                PolizaDTO polizaDTO = equipo.Poliza;
+                Poliza polizaEntity = await context.Polizas.FindAsync(equipo.Poliza.Id);
+                polizaEntity.Aseguradora = polizaDTO.Aseguradora;
+                polizaEntity.Numero_poliza = polizaDTO.Numero_poliza;
+                polizaEntity.Cobertura = polizaDTO.Cobertura;
+                polizaEntity.FechaInicio = polizaDTO.FechaInicio;
+                polizaEntity.FechaFin = polizaDTO.FechaFin;
+                polizaEntity.IdUsuarioModificacion = userInformation.Id;
+                polizaEntity.FechaModificacion = dateTime;
+            }
+            TipoEquipo typeEquipmentEntity = await context.TiposEquipo.FindAsync(equipo.IdTipoEquipo);
+            if (typeEquipmentEntity.Nombre.Equals(Constantes.TRANSPORTE))
+            {
+
+                CaracteristicasTransporteEditarDTO caracteristicas = equipo.CaracteristicasTransporte;
+                CaracteristicasTransporte transporteEntity = await context.CaracteristicasTransportes.FindAsync(caracteristicas.Id);
+                transporteEntity.Placas = caracteristicas.Placas.ToUpper();
+                transporteEntity.Color = caracteristicas.Color.ToUpper();
+                transporteEntity.Transmision = caracteristicas.Transmision.ToUpper();
+                transporteEntity.IdUsuarioCreacion = userInformation.Id;
+                transporteEntity.FechaModificacion = dateTime;
+
+            } else if (typeEquipmentEntity.Nombre.Equals(Constantes.ELECTRONICO))
+            {
+                List<SoftwareEditarDTO> listSoftware = equipo.Software;
+                if (listSoftware is not null && listSoftware.Count > 0)
+                {
+                    foreach (SoftwareEditarDTO softwareDTO in listSoftware)
+                    {
+                        Software softawereEntity = new Software();
+                        if (softwareDTO.Id != 0)
+                        {
+                            softawereEntity = await context.Softwares.FindAsync(softwareDTO.Id);
+                        }
+                        softawereEntity.IdEquipo = id;
+                        softawereEntity.Serial = softwareDTO.Serial is null ? softawereEntity.Serial : softwareDTO.Serial;
+                        softawereEntity.Version = softwareDTO.Version is null ? softawereEntity.Version : softwareDTO.Version;
+                        softawereEntity.FechaCompra = softwareDTO.FechaCompra.ToString() is null ? softawereEntity.FechaCompra : softwareDTO.FechaCompra;
+                        softawereEntity.IdUsuarioModificacion = userInformation.Id;
+                        softawereEntity.FechaModificacion = dateTime;
+                    }
+                }
+                List<HardwareDTO> listHardware = equipo.Hardware;
+                if (listHardware is not null && listHardware.Count > 0)
+                {
+                    List<Hardware> hardwareList = new List<Hardware>();
+                    foreach (HardwareDTO hardwareDTO in listHardware)
+                    {
+                        Hardware hardware = new Hardware();
+                        hardware.Marca = hardwareDTO.Marca;
+                        hardware.Nombre = hardwareDTO.Nombre;
+                        hardware.Descripcion = hardwareDTO.Descripcion is null ? string.Empty : hardwareDTO.Descripcion;
+                        hardware.Serial = hardwareDTO.Serial.ToUpper();
+                        hardware.IdUsuarioCreacion = userInformation.Id;
+                        hardware.IdUsuarioModificacion = userInformation.Id;
+                        hardware.FechaCreacion = dateTime;
+                        hardware.FechaModificacion = dateTime;
+                        hardwareList.Add(hardware);
+                    }
+                }
+            } else
+            {
+                throw new CustomException("Error al editar");
+            }
+            equipmentEntity.IdUsuarioModificacion = userInformation.Id;
+            equipmentEntity.FechaModificacion = dateTime;
+
+            int statusUpdate = await context.SaveChangesAsync();
+            if (statusUpdate == 0)
+            {
+                throw new CustomException("Problemas al actualizar la información");
+            }
         }
 
 
@@ -268,6 +380,23 @@ namespace team_management_backend.Service
         public async Task<TipoEquipo> GetByTipoEquipo(string type)
         {
             return await context.TiposEquipo.Where(t => t.Nombre == type).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Busqueda de usuario por correo
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>Usuario</returns>
+        /// <exception cref="CustomException"></exception>
+        private async Task<Usuario> UserInformation()
+        {
+            string claimEmail = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
+            Usuario userInformation = await userManager.FindByEmailAsync(claimEmail);
+            if (userInformation is null)
+            {
+                throw new CustomException("Usuario no encontrado.");
+            }
+            return userInformation;
         }
     }
 }

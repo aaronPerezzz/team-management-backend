@@ -17,10 +17,10 @@ namespace team_management_backend.Models
         public string Proveedor { get; set; }
 
         [Required]
-        public DateTime FechaInicio { get; set; }
+        public DateOnly FechaInicio { get; set; }
 
         [Required]
-        public DateTime FechaFin { get; set; }
+        public DateOnly FechaFin { get; set; }
 
         public string? IdUsuarioCreacion { get; set; }
         public string? IdUsuarioModificacion { get; set; }

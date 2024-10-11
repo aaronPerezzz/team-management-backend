@@ -8,7 +8,7 @@ namespace team_management_backend.DTOs
         public string Aseguradora { get; set; }
         public string Numero_poliza { get; set; }
         public string Cobertura { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaFin { get; set; }
+        public DateOnly FechaInicio { get; set; }
+        public DateOnly FechaFin { get; set; }
     }
 }

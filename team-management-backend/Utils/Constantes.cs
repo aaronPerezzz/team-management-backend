@@ -43,6 +43,11 @@ namespace team_management_backend.Utils
         public const bool TRUE = true;
         public const bool FALSE = false;
 
+        #region Tipos de equipo
+        public const string ELECTRONICO = "Electrónico";
+        public const string TRANSPORTE = "Transporte";
+        #endregion
+
         #region Constantes Asignaciones
         //MENSAJES DE ERROR ASIGNACIONES
         public const string ERROR_AS01 = "No se encontraron asignaciones.";
